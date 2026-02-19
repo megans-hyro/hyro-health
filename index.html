@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hyro Health – Your Health, Our Purpose</title>
+  <meta name="description" content="Hyro Health is a nationally recognized health system delivering compassionate, world-class care across 12 hospitals and 200+ outpatient locations." />
+  <link rel="icon" href="assets/hyro-logo.png" type="image/png" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet" />
+  <style>
+    /* ── Reset & Base ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; border: 0; }
+    :root {
+      --bg: hsl(230 50% 97%);
+      --fg: hsl(235 40% 15%);
+      --card: hsl(0 0% 100%);
+      --primary: hsl(240 60% 44%);
+      --primary-fg: hsl(0 0% 100%);
+      --secondary: hsl(235 60% 95%);
+      --secondary-fg: hsl(240 60% 44%);
+      --muted: hsl(230 40% 93%);
+      --muted-fg: hsl(235 20% 46%);
+      --accent: hsl(240 80% 62%);
+      --accent-fg: hsl(0 0% 100%);
+      --border: hsl(230 30% 90%);
+      --gradient: linear-gradient(135deg, hsl(240 60% 44%), hsl(240 80% 62%));
+      --gradient-soft: linear-gradient(180deg, hsl(230 50% 97%), hsl(235 60% 95%));
+      --shadow: 0 4px 30px -8px hsl(240 60% 44% / 0.2);
+      --shadow-lg: 0 20px 60px -15px hsl(240 60% 44% / 0.25);
+      --radius: 1rem;
+    }
+    body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--fg); -webkit-font-smoothing: antialiased; line-height: 1.6; }
+    img { max-width: 100%; display: block; }
+    a { text-decoration: none; color: inherit; }
+
+    /* ── Utility ── */
+    .container { max-width: 1280px; margin: 0 auto; padding: 0 1rem; }
+    .text-gradient { background-image: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .btn { display: inline-flex; align-items: center; gap: .5rem; padding: .75rem 1.5rem; border-radius: .5rem; font-weight: 600; font-size: .875rem; cursor: pointer; transition: opacity .2s; }
+    .btn-primary { background-image: var(--gradient); color: var(--primary-fg); }
+    .btn-primary:hover { opacity: .9; }
+    .btn-outline { border: 1px solid var(--border); color: var(--fg); background: transparent; }
+    .btn-outline:hover { background: var(--secondary); }
+    .btn-outline-light { border: 1px solid rgba(255,255,255,.3); color: white; background: transparent; }
+    .btn-outline-light:hover { background: rgba(255,255,255,.1); }
+    .section-label { font-size: .75rem; font-weight: 600; letter-spacing: .15em; text-transform: uppercase; color: var(--accent); margin-bottom: .75rem; }
+    .section-title { font-size: 2.25rem; font-weight: 700; margin-bottom: 1rem; }
+    .section-desc { font-size: 1.125rem; color: var(--muted-fg); max-width: 40rem; margin: 0 auto; }
+
+    /* ── Navbar ── */
+    .navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 50; background: rgba(244,245,251,.8); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); }
+    .navbar-inner { display: flex; align-items: center; justify-content: space-between; height: 4rem; }
+    .navbar-brand { display: flex; align-items: center; gap: .5rem; font-size: 1.25rem; font-weight: 700; }
+    .navbar-brand img { height: 2rem; width: auto; }
+    .navbar-links { display: flex; align-items: center; gap: 2rem; }
+    .navbar-links a { font-size: .875rem; font-weight: 500; color: var(--muted-fg); transition: color .2s; }
+    .navbar-links a:hover { color: var(--fg); }
+    .navbar-actions { display: flex; align-items: center; gap: .75rem; }
+    .navbar-phone { font-size: .875rem; color: var(--muted-fg); display: flex; align-items: center; gap: .5rem; }
+    @media (max-width: 1023px) { .navbar-links, .navbar-actions { display: none; } }
+
+    /* ── Hero ── */
+    .hero { position: relative; padding-top: 4rem; overflow: hidden; }
+    .hero-img-wrap { position: relative; height: 600px; }
+    .hero-img-wrap img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    .hero-overlay { position: absolute; inset: 0; background: linear-gradient(to right, rgba(21,22,43,.8), rgba(21,22,43,.5), transparent); }
+    .hero-content { position: relative; height: 100%; display: flex; align-items: center; }
+    .hero-text { max-width: 36rem; }
+    .hero-text h1 { font-size: 3.5rem; font-weight: 700; line-height: 1.1; color: white; margin-bottom: 1.5rem; }
+    .hero-text h1 em { font-style: normal; color: var(--accent); }
+    .hero-text p { font-size: 1.125rem; color: rgba(255,255,255,.8); margin-bottom: 1.5rem; }
+    .hero-buttons { display: flex; flex-wrap: wrap; gap: 1rem; }
+    @media (min-width: 1024px) { .hero-img-wrap { height: 700px; } .hero-text h1 { font-size: 3.75rem; } }
+
+    /* Quick links */
+    .quick-links { background: var(--card); border-bottom: 1px solid var(--border); }
+    .quick-links-grid { display: grid; grid-template-columns: repeat(3, 1fr); }
+    .quick-link { display: flex; align-items: center; gap: 1rem; padding: 1.25rem 1.5rem; transition: background .2s; }
+    .quick-link:hover { background: rgba(235,237,250,.5); }
+    .quick-link:not(:last-child) { border-right: 1px solid var(--border); }
+    .quick-link-icon { width: 2.5rem; height: 2.5rem; border-radius: .5rem; background: var(--secondary); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .quick-link-label { font-size: .875rem; font-weight: 600; }
+    .quick-link-sub { font-size: .75rem; color: var(--muted-fg); }
+    @media (max-width: 639px) { .quick-links-grid { grid-template-columns: 1fr; } .quick-link:not(:last-child) { border-right: none; border-bottom: 1px solid var(--border); } }
+
+    /* ── Services ── */
+    .services { padding: 6rem 0; background-image: var(--gradient-soft); }
+    .services-grid { display: grid; gap: 1.5rem; grid-template-columns: repeat(3, 1fr); }
+    .service-card { padding: 2rem; border-radius: var(--radius); background: var(--card); border: 1px solid var(--border); transition: box-shadow .3s, transform .3s; }
+    .service-card:hover { box-shadow: var(--shadow); transform: translateY(-4px); }
+    .service-icon { width: 3rem; height: 3rem; border-radius: .75rem; background: var(--secondary); display: flex; align-items: center; justify-content: center; margin-bottom: 1.25rem; color: var(--accent); }
+    .service-card h3 { font-size: 1.25rem; font-weight: 600; margin-bottom: .75rem; }
+    .service-card p { color: var(--muted-fg); line-height: 1.7; }
+    @media (max-width: 1023px) { .services-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 639px) { .services-grid { grid-template-columns: 1fr; } }
+
+    /* ── Doctors ── */
+    .doctors { padding: 6rem 0; }
+    .doctors-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+    .doctor-card { border-radius: var(--radius); overflow: hidden; background: var(--card); border: 1px solid var(--border); transition: box-shadow .3s; }
+    .doctor-card:hover { box-shadow: var(--shadow-lg); }
+    .doctor-img { aspect-ratio: 3/4; overflow: hidden; background: var(--secondary); }
+    .doctor-img img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s; }
+    .doctor-card:hover .doctor-img img { transform: scale(1.05); }
+    .doctor-info { padding: 1.5rem; text-align: center; }
+    .doctor-info h3 { font-size: 1.125rem; font-weight: 700; }
+    .doctor-info .specialty { color: var(--accent); font-weight: 500; font-size: .875rem; margin-top: .25rem; }
+    .doctor-info .creds { color: var(--muted-fg); font-size: .75rem; margin-top: .25rem; }
+    .doctor-info .profile-link { margin-top: 1rem; font-size: .875rem; font-weight: 600; color: var(--accent); display: inline-block; }
+    .doctor-info .profile-link:hover { text-decoration: underline; }
+    .browse-all { text-align: center; margin-top: 3rem; }
+    .browse-all a { color: var(--accent); font-weight: 600; }
+    .browse-all a:hover { text-decoration: underline; }
+    @media (max-width: 767px) { .doctors-grid { grid-template-columns: 1fr; max-width: 400px; margin: 0 auto; } }
+
+    /* ── Stats ── */
+    .stats { padding: 6rem 0; background-image: var(--gradient-soft); }
+    .stats-box { border-radius: 1.5rem; background-image: var(--gradient); padding: 3rem; }
+    .stats-box .stats-header { text-align: center; margin-bottom: 3rem; }
+    .stats-box .stats-header h2 { font-size: 2.25rem; font-weight: 700; color: white; margin-bottom: 1rem; }
+    .stats-box .stats-header p { color: rgba(255,255,255,.7); font-size: 1.125rem; max-width: 36rem; margin: 0 auto; }
+    .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; }
+    .stat-item { text-align: center; }
+    .stat-value { font-size: 3.5rem; font-weight: 700; color: white; margin-bottom: .5rem; }
+    .stat-label { color: rgba(255,255,255,.7); font-weight: 500; }
+    @media (min-width: 1024px) { .stats-box { padding: 5rem; } .stat-value { font-size: 3.75rem; } }
+    @media (max-width: 767px) { .stats-grid { grid-template-columns: repeat(2, 1fr); } }
+
+    /* ── Locations ── */
+    .locations { padding: 6rem 0; }
+    .locations-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+    .location-card { padding: 2rem; border-radius: var(--radius); background: var(--card); border: 1px solid var(--border); transition: box-shadow .3s; }
+    .location-card:hover { box-shadow: var(--shadow); }
+    .location-type { display: inline-block; padding: .25rem .75rem; border-radius: 999px; background: var(--secondary); color: var(--secondary-fg); font-size: .75rem; font-weight: 600; margin-bottom: 1rem; }
+    .location-card h3 { font-size: 1.25rem; font-weight: 700; margin-bottom: 1rem; }
+    .location-detail { display: flex; align-items: flex-start; gap: .75rem; color: var(--muted-fg); font-size: .875rem; margin-bottom: .75rem; }
+    .location-detail svg { color: var(--accent); flex-shrink: 0; margin-top: 2px; }
+    .location-card .directions { margin-top: 1.5rem; font-size: .875rem; font-weight: 600; color: var(--accent); }
+    .location-card .directions:hover { text-decoration: underline; }
+    @media (max-width: 767px) { .locations-grid { grid-template-columns: 1fr; } }
+
+    /* ── Patients ── */
+    .patients { padding: 6rem 0; background-image: var(--gradient-soft); }
+    .patients-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+    .patients-text h2 { font-size: 2.25rem; font-weight: 700; margin-bottom: 1rem; }
+    .patients-text p { font-size: 1.125rem; color: var(--muted-fg); margin-bottom: 2rem; }
+    .resources-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .resource-card { display: flex; align-items: center; gap: 1rem; padding: 1.5rem; border-radius: var(--radius); background: var(--card); border: 1px solid var(--border); transition: box-shadow .3s, transform .3s; }
+    .resource-card:hover { box-shadow: var(--shadow); transform: translateY(-4px); }
+    .resource-icon { width: 2.5rem; height: 2.5rem; border-radius: .5rem; background: var(--secondary); display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: var(--accent); }
+    .resource-card span { font-size: .875rem; font-weight: 600; }
+    @media (max-width: 1023px) { .patients-grid { grid-template-columns: 1fr; } }
+
+    /* ── CTA ── */
+    .cta { padding: 6rem 0; }
+    .cta-inner { max-width: 48rem; margin: 0 auto; text-align: center; }
+    .cta-inner h2 { font-size: 2.25rem; font-weight: 700; margin-bottom: 1rem; }
+    .cta-inner p { font-size: 1.125rem; color: var(--muted-fg); max-width: 36rem; margin: 0 auto 2rem; }
+    .cta-buttons { display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; }
+    @media (min-width: 1024px) { .cta-inner h2 { font-size: 3rem; } }
+
+    /* ── Footer ── */
+    .footer { padding: 3rem 0; background: var(--fg); color: rgba(255,255,255,.5); }
+    .footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 2rem; margin-bottom: 2.5rem; }
+    .footer-brand { display: flex; align-items: center; gap: .5rem; margin-bottom: 1rem; }
+    .footer-brand img { height: 1.75rem; filter: brightness(0) invert(1); }
+    .footer-brand span { font-size: 1.125rem; font-weight: 700; color: white; }
+    .footer p { font-size: .875rem; line-height: 1.7; }
+    .footer h4 { font-size: .875rem; font-weight: 600; color: white; margin-bottom: 1rem; }
+    .footer ul { list-style: none; }
+    .footer ul li { margin-bottom: .5rem; }
+    .footer ul a { font-size: .875rem; transition: color .2s; }
+    .footer ul a:hover { color: white; }
+    .footer-bottom { border-top: 1px solid rgba(255,255,255,.15); padding-top: 1.5rem; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; font-size: .75rem; }
+    .footer-bottom-links { display: flex; gap: 1.5rem; }
+    .footer-bottom-links a:hover { color: white; }
+    @media (max-width: 767px) { .footer-grid { grid-template-columns: 1fr 1fr; } }
+
+    /* ── SVG icons inline ── */
+    .icon { width: 1.25rem; height: 1.25rem; stroke: currentColor; stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+    .icon-lg { width: 1.5rem; height: 1.5rem; }
+  </style>
+</head>
+<body>
+
+<!-- ═══════ NAVBAR ═══════ -->
+<nav class="navbar">
+  <div class="container navbar-inner">
+    <a href="#" class="navbar-brand">
+      <img src="assets/hyro-logo.png" alt="Hyro Health" />
+      <span>Hyro <span class="text-gradient">Health</span></span>
+    </a>
+    <div class="navbar-links">
+      <a href="#services">Services</a>
+      <a href="#doctors">Find a Doctor</a>
+      <a href="#locations">Locations</a>
+      <a href="#patients">Patients &amp; Visitors</a>
+    </div>
+    <div class="navbar-actions">
+      <span class="navbar-phone">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        (555) 123-4567
+      </span>
+      <a href="#" class="btn btn-primary" style="padding:.5rem 1rem; font-size:.8125rem;">Patient Portal</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ═══════ HERO ═══════ -->
+<section class="hero">
+  <div class="hero-img-wrap">
+    <!-- Replace with your own hospital image -->
+    <img src="assets/hospital-hero.png" alt="Hyro Health Medical Center" />
+    <div class="hero-overlay"></div>
+    <div class="container hero-content">
+      <div class="hero-text">
+        <h1>Your health, <em>our purpose</em></h1>
+        <p>Hyro Health is a nationally recognized health system delivering compassionate, world-class care across 12 hospitals and 200+ outpatient locations.</p>
+        <div class="hero-buttons">
+          <a href="#doctors" class="btn btn-primary">Find a Doctor
+            <svg class="icon" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </a>
+          <a href="#" class="btn btn-outline-light">Schedule Appointment</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick links -->
+  <div class="quick-links">
+    <div class="container">
+      <div class="quick-links-grid">
+        <a href="#" class="quick-link">
+          <div class="quick-link-icon">
+            <svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <div><div class="quick-link-label">ER Wait Times</div><div class="quick-link-sub">Main Campus: ~12 min</div></div>
+        </a>
+        <a href="#locations" class="quick-link">
+          <div class="quick-link-icon">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          </div>
+          <div><div class="quick-link-label">Find a Location</div><div class="quick-link-sub">200+ locations near you</div></div>
+        </a>
+        <a href="#" class="quick-link">
+          <div class="quick-link-icon">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </div>
+          <div><div class="quick-link-label">MyHyro Portal</div><div class="quick-link-sub">Access records &amp; results</div></div>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ SERVICES ═══════ -->
+<section id="services" class="services">
+  <div class="container">
+    <div style="text-align:center; max-width:40rem; margin:0 auto 4rem;">
+      <p class="section-label">Our Services</p>
+      <h2 class="section-title">Exceptional care, <span class="text-gradient">every specialty</span></h2>
+      <p class="section-desc">From routine checkups to complex procedures, our nationally recognized specialists are here for you at every stage of life.</p>
+    </div>
+    <div class="services-grid">
+      <a href="#" class="service-card">
+        <div class="service-icon">
+          <svg class="icon-lg icon" viewBox="0 0 24 24"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+        </div>
+        <h3>Heart &amp; Vascular</h3>
+        <p>Advanced cardiac care including minimally invasive heart surgery, catheterization, and cardiac rehab.</p>
+      </a>
+      <a href="#" class="service-card">
+        <div class="service-icon">
+          <svg class="icon-lg icon" viewBox="0 0 24 24"><path d="M12 2a8 8 0 1 0 0 16 8 8 0 0 0 0-16z"/><path d="M12 18v4"/><path d="M8 22h8"/></svg>
+        </div>
+        <h3>Neurosciences</h3>
+        <p>Comprehensive neurological care for stroke, epilepsy, brain tumors, and movement disorders.</p>
+      </a>
+      <a href="#" class="service-card">
+        <div class="service-icon">
+          <svg class="icon-lg icon" viewBox="0 0 24 24"><path d="M9 12h.01"/><path d="M15 12h.01"/><path d="M10 16c.5.3 1.2.5 2 .5s1.5-.2 2-.5"/><path d="M19 6.3a9 9 0 0 1 1.8 3.9 2 2 0 0 1 0 3.6 9 9 0 0 1-17.6 0 2 2 0 0 1 0-3.6A9 9 0 0 1 12 3c2 0 3.5 1.1 3.5 2.5s-.9 2.5-2 2.5c-.8 0-1.5-.4-1.5-1"/></svg>
+        </div>
+        <h3>Women &amp; Children</h3>
+        <p>Family-centered maternity care, NICU services, and pediatric specialties for all ages.</p>
+      </a>
+      <a href="#" class="service-card">
+        <div class="service-icon">
+          <svg class="icon-lg icon" viewBox="0 0 24 24"><path d="M18 7V4H6v3"/><path d="M18 20v-3H6v3"/><circle cx="12" cy="12" r="3"/></svg>
+        </div>
+        <h3>Orthopedics</h3>
+        <p>Joint replacement, sports medicine, spine surgery, and physical therapy from top-ranked specialists.</p>
+      </a>
+      <a href="#" class="service-card">
+        <div class="service-icon">
+          <svg class="icon-lg icon" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        </div>
+        <h3>Cancer Center</h3>
+        <p>Multidisciplinary oncology with the latest immunotherapy, radiation, and clinical trials.</p>
+      </a>
+      <a href="#" class="service-card">
+        <div class="service-icon">
+          <svg class="icon-lg icon" viewBox="0 0 24 24"><path d="M4.8 2.3A.3.3 0 1 0 5 2H4a2 2 0 0 0-2 2v5a6 6 0 0 0 6 6 6 6 0 0 0 6-6V4a2 2 0 0 0-2-2h-1a.2.2 0 1 0 .3.3"/><path d="M8 15v1a6 6 0 0 0 6 6 6 6 0 0 0 6-6v-4"/></svg>
+        </div>
+        <h3>Primary Care</h3>
+        <p>Preventive health, wellness visits, chronic disease management, and same-day sick appointments.</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ DOCTORS ═══════ -->
+<section id="doctors" class="doctors">
+  <div class="container">
+    <div style="text-align:center; max-width:40rem; margin:0 auto 4rem;">
+      <p class="section-label">Our Physicians</p>
+      <h2 class="section-title">Meet your <span class="text-gradient">care team</span></h2>
+      <p class="section-desc">Our physicians are leaders in their fields, bringing expertise, compassion, and innovation to every patient interaction.</p>
+    </div>
+    <div class="doctors-grid">
+      <div class="doctor-card">
+        <div class="doctor-img"><img src="assets/doctor-1.png" alt="Dr. Sarah Mitchell" loading="lazy" /></div>
+        <div class="doctor-info">
+          <h3>Dr. Sarah Mitchell</h3>
+          <p class="specialty">Cardiology</p>
+          <p class="creds">MD, FACC</p>
+          <a href="#" class="profile-link">View Profile →</a>
+        </div>
+      </div>
+      <div class="doctor-card">
+        <div class="doctor-img"><img src="assets/doctor-2.png" alt="Dr. James Hartwell" loading="lazy" /></div>
+        <div class="doctor-info">
+          <h3>Dr. James Hartwell</h3>
+          <p class="specialty">Orthopedic Surgery</p>
+          <p class="creds">MD, FAAOS</p>
+          <a href="#" class="profile-link">View Profile →</a>
+        </div>
+      </div>
+      <div class="doctor-card">
+        <div class="doctor-img"><img src="assets/doctor-3.png" alt="Dr. Elena Rodriguez" loading="lazy" /></div>
+        <div class="doctor-info">
+          <h3>Dr. Elena Rodriguez</h3>
+          <p class="specialty">Neurosurgery</p>
+          <p class="creds">MD, PhD</p>
+          <a href="#" class="profile-link">View Profile →</a>
+        </div>
+      </div>
+    </div>
+    <div class="browse-all"><a href="#">Browse all physicians →</a></div>
+  </div>
+</section>
+
+<!-- ═══════ STATS ═══════ -->
+<section class="stats">
+  <div class="container">
+    <div class="stats-box">
+      <div class="stats-header">
+        <h2>A legacy of healing, a future of innovation</h2>
+        <p>For over 75 years, Hyro Health has been the region's most trusted name in healthcare—recognized nationally for clinical excellence.</p>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-item"><div class="stat-value">12</div><div class="stat-label">Hospitals</div></div>
+        <div class="stat-item"><div class="stat-value">200+</div><div class="stat-label">Outpatient Locations</div></div>
+        <div class="stat-item"><div class="stat-value">4,500+</div><div class="stat-label">Physicians</div></div>
+        <div class="stat-item"><div class="stat-value">1.2M</div><div class="stat-label">Patients Served Annually</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ LOCATIONS ═══════ -->
+<section id="locations" class="locations">
+  <div class="container">
+    <div style="text-align:center; max-width:40rem; margin:0 auto 4rem;">
+      <p class="section-label">Locations</p>
+      <h2 class="section-title">Care <span class="text-gradient">close to home</span></h2>
+      <p class="section-desc">With hospitals and clinics across the region, exceptional healthcare is always within reach.</p>
+    </div>
+    <div class="locations-grid">
+      <div class="location-card">
+        <span class="location-type">Flagship Hospital</span>
+        <h3>Hyro Health Medical Center</h3>
+        <div class="location-detail">
+          <svg class="icon" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <span>1200 University Blvd, Suite 100</span>
+        </div>
+        <div class="location-detail">
+          <svg class="icon" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          <span>(555) 123-4567</span>
+        </div>
+        <div class="location-detail">
+          <svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <span>24/7 Emergency</span>
+        </div>
+        <a href="#" class="directions">Get Directions →</a>
+      </div>
+      <div class="location-card">
+        <span class="location-type">Community Hospital</span>
+        <h3>Hyro Health – Westside</h3>
+        <div class="location-detail">
+          <svg class="icon" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <span>4500 Elm Street West</span>
+        </div>
+        <div class="location-detail">
+          <svg class="icon" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          <span>(555) 234-5678</span>
+        </div>
+        <div class="location-detail">
+          <svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <span>24/7 Emergency</span>
+        </div>
+        <a href="#" class="directions">Get Directions →</a>
+      </div>
+      <div class="location-card">
+        <span class="location-type">Outpatient Center</span>
+        <h3>Hyro Health Pavilion</h3>
+        <div class="location-detail">
+          <svg class="icon" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <span>890 Commerce Drive, Bldg C</span>
+        </div>
+        <div class="location-detail">
+          <svg class="icon" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          <span>(555) 345-6789</span>
+        </div>
+        <div class="location-detail">
+          <svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <span>Mon–Fri 7am–7pm</span>
+        </div>
+        <a href="#" class="directions">Get Directions →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ PATIENTS ═══════ -->
+<section id="patients" class="patients">
+  <div class="container">
+    <div class="patients-grid">
+      <div class="patients-text">
+        <p class="section-label">Patients &amp; Visitors</p>
+        <h2>Everything you need, <span class="text-gradient">all in one place</span></h2>
+        <p>Access your health information, schedule visits, and manage your care through our secure patient portal—available 24/7.</p>
+        <a href="#" class="btn btn-primary">Log In to MyHyro
+          <svg class="icon" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+      </div>
+      <div class="resources-grid">
+        <a href="#" class="resource-card">
+          <div class="resource-icon">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+          </div>
+          <span>Schedule an Appointment</span>
+        </a>
+        <a href="#" class="resource-card">
+          <div class="resource-icon">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+          </div>
+          <span>Access Medical Records</span>
+        </a>
+        <a href="#" class="resource-card">
+          <div class="resource-icon">
+            <svg class="icon" viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+          </div>
+          <span>Pay Your Bill Online</span>
+        </a>
+        <a href="#" class="resource-card">
+          <div class="resource-icon">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>
+          </div>
+          <span>Pre-Registration Forms</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ CTA ═══════ -->
+<section class="cta">
+  <div class="container">
+    <div class="cta-inner">
+      <h2>Need care? <span class="text-gradient">We're here for you.</span></h2>
+      <p>Whether it's a routine visit or a complex condition, Hyro Health is ready to provide the expert, compassionate care you deserve.</p>
+      <div class="cta-buttons">
+        <a href="#doctors" class="btn btn-primary" style="padding:.75rem 2rem;">Find a Doctor
+          <svg class="icon" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+        <a href="#" class="btn btn-outline">Call (555) 123-4567</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ FOOTER ═══════ -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">
+          <img src="assets/hyro-logo.png" alt="Hyro Health" />
+          <span>Hyro Health</span>
+        </div>
+        <p>Compassionate, world-class healthcare for every stage of life. Serving our community since 1950.</p>
+      </div>
+      <div>
+        <h4>For Patients</h4>
+        <ul><li><a href="#">Find a Doctor</a></li><li><a href="#">Patient Portal</a></li><li><a href="#">Pay a Bill</a></li><li><a href="#">Medical Records</a></li></ul>
+      </div>
+      <div>
+        <h4>Our System</h4>
+        <ul><li><a href="#">About Us</a></li><li><a href="#">Locations</a></li><li><a href="#">Careers</a></li><li><a href="#">Giving</a></li></ul>
+      </div>
+      <div>
+        <h4>Resources</h4>
+        <ul><li><a href="#">Health Library</a></li><li><a href="#">Classes &amp; Events</a></li><li><a href="#">News</a></li><li><a href="#">Contact Us</a></li></ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 Hyro Health System. All rights reserved.</p>
+      <div class="footer-bottom-links">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Use</a>
+        <a href="#">Non-Discrimination Notice</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
