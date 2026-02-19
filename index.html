@@ -524,5 +524,21 @@
   </div>
 </footer>
 
+<script>
+    window.HYRO_WIDGET_ID = "f642b065-9e12-4982-a217-3bf670d56719";
+    (function() {
+      const f = function() {
+        const d = document;
+        const l = d.createElement('script');
+        l.type = 'text/javascript';
+        l.async = true;
+        l.src = 'https://api.airbud.io/widgets/widget.js?id=' + window.HYRO_WIDGET_ID;
+        const x = d.getElementsByTagName('script')[0];
+        x.parentNode.insertBefore(l, x);
+      };
+      window.addEventListener('load', f, false);
+    })();
+  </script>
+
 </body>
 </html>
