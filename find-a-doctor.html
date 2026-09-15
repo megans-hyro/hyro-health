@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Find a Doctor – Hyro Health</title>
-  <meta name="description" content="Search Hyro Health's physicians by name, specialty, or location to find the right doctor for you." />
+  <meta name="description" content="Search Hyro Health's 300+ providers across upstate New York by name, specialty, region, and more." />
   <meta name="robots" content="noindex, nofollow" />
   <link rel="icon" href="hyro-logo.png" type="image/png" />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet" />
@@ -42,6 +42,7 @@
     .btn-primary:hover { opacity: .9; }
     .btn-outline { border: 1px solid var(--border); color: var(--fg); background: transparent; }
     .btn-outline:hover { background: var(--secondary); }
+    .btn:disabled { opacity: .5; cursor: default; }
     .section-label { font-size: .75rem; font-weight: 600; letter-spacing: .15em; text-transform: uppercase; color: var(--accent); margin-bottom: .75rem; }
 
     /* ── Navbar ── */
@@ -61,11 +62,11 @@
     .icon-sm { width: 1rem; height: 1rem; }
 
     /* ── Search hero ── */
-    .search-hero { padding: 8rem 0 3rem; background-image: var(--gradient-soft); }
+    .search-hero { padding: 8rem 0 2rem; background-image: var(--gradient-soft); }
     .search-hero-text { text-align: center; max-width: 40rem; margin: 0 auto 2.5rem; }
     .search-hero-text h1 { font-size: 2.5rem; font-weight: 700; margin-bottom: .75rem; }
     .search-hero-text p { font-size: 1.125rem; color: var(--muted-fg); }
-    .search-box { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow-lg); padding: 1.5rem; max-width: 60rem; margin: 0 auto; }
+    .search-box { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow-lg); padding: 1.5rem; max-width: 68rem; margin: 0 auto; }
     .search-fields { display: grid; grid-template-columns: 2fr 1fr 1fr auto; gap: 1rem; align-items: end; }
     .search-field label { display: block; font-size: .75rem; font-weight: 600; color: var(--muted-fg); margin-bottom: .5rem; }
     .search-field input, .search-field select { width: 100%; padding: .75rem 1rem; border: 1px solid var(--border); border-radius: .5rem; font-size: .875rem; font-family: inherit; background: var(--card); color: var(--fg); }
@@ -73,6 +74,15 @@
     .search-box .btn { padding: .75rem 1.5rem; white-space: nowrap; }
     @media (max-width: 900px) { .search-fields { grid-template-columns: 1fr 1fr; } .search-box .btn { grid-column: 1 / -1; } }
     @media (max-width: 560px) { .search-fields { grid-template-columns: 1fr; } }
+
+    .more-filters-toggle { display: block; margin: 1.25rem auto 0; font-size: .8125rem; font-weight: 600; color: var(--accent); background: none; cursor: pointer; }
+    .more-filters-toggle:hover { text-decoration: underline; }
+    .filters-panel { display: none; grid-template-columns: repeat(3, 1fr); gap: 1rem 1.5rem; margin-top: 1.25rem; padding-top: 1.25rem; border-top: 1px solid var(--border); }
+    .filters-panel.open { display: grid; }
+    .filter-check { display: flex; align-items: center; gap: .5rem; font-size: .875rem; }
+    .filter-check input { width: auto; accent-color: var(--accent); }
+    @media (max-width: 700px) { .filters-panel { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 480px) { .filters-panel { grid-template-columns: 1fr; } }
 
     /* ── Results ── */
     .results { padding: 3rem 0 6rem; }
@@ -98,13 +108,18 @@
     .doctor-result-meta { margin-top: .875rem; display: flex; flex-direction: column; gap: .5rem; font-size: .8125rem; color: var(--muted-fg); }
     .doctor-result-meta .meta-row { display: flex; align-items: flex-start; gap: .5rem; }
     .doctor-result-meta svg { color: var(--accent); margin-top: 2px; }
-    .accepting-badge { display: inline-flex; align-items: center; gap: .375rem; font-size: .75rem; font-weight: 600; padding: .25rem .625rem; border-radius: 999px; width: fit-content; margin-top: .875rem; }
-    .accepting-badge.yes { background: hsl(150 55% 94%); color: hsl(150 55% 28%); }
-    .accepting-badge.no { background: hsl(230 30% 94%); color: var(--muted-fg); }
+    .badge-row { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .875rem; }
+    .pill { display: inline-flex; align-items: center; gap: .375rem; font-size: .75rem; font-weight: 600; padding: .25rem .625rem; border-radius: 999px; width: fit-content; }
+    .pill.yes { background: hsl(150 55% 94%); color: hsl(150 55% 28%); }
+    .pill.no { background: hsl(230 30% 94%); color: var(--muted-fg); }
+    .pill.info { background: var(--secondary); color: var(--secondary-fg); }
     .doctor-result-info .view-profile-btn { margin-top: 1.25rem; width: 100%; }
 
     .no-results { text-align: center; padding: 4rem 1rem; color: var(--muted-fg); }
     .no-results h3 { font-size: 1.25rem; color: var(--fg); margin-bottom: .5rem; }
+    .loading-state { text-align: center; padding: 4rem 1rem; color: var(--muted-fg); }
+
+    .load-more-wrap { text-align: center; margin-top: 3rem; }
 
     /* ── Doctor modal ── */
     .modal-overlay { position: fixed; inset: 0; z-index: 200; background: rgba(21,22,43,.6); display: none; align-items: flex-start; justify-content: center; padding: 2rem 1rem; overflow-y: auto; }
@@ -119,7 +134,7 @@
     .modal-body h2 { font-size: 1.375rem; font-weight: 700; }
     .modal-body .specialty { color: var(--accent); font-weight: 500; margin-top: .25rem; }
     .modal-body .creds { color: var(--muted-fg); font-size: .875rem; margin-top: .125rem; }
-    .modal-body .bio { margin: 1.25rem 0; color: var(--muted-fg); }
+    .modal-badges { display: flex; flex-wrap: wrap; gap: .5rem; margin: 1rem 0; }
     .modal-detail-grid { display: flex; flex-direction: column; gap: .75rem; margin-bottom: 1.5rem; }
     .modal-detail-row { display: flex; align-items: flex-start; gap: .75rem; font-size: .875rem; }
     .modal-detail-row svg { color: var(--accent); margin-top: 2px; }
@@ -199,7 +214,7 @@
     <div class="search-hero-text">
       <p class="section-label">Find a Doctor</p>
       <h1>Find the right doctor <span class="text-gradient">for you</span></h1>
-      <p>Search our physicians by name, specialty, or condition — then filter by location to find care nearby.</p>
+      <p>Search 300+ Hyro Health providers across upstate New York by name, specialty, or region.</p>
     </div>
     <form class="search-box" id="search-form">
       <div class="search-fields">
@@ -209,20 +224,34 @@
         </div>
         <div class="search-field">
           <label for="specialty-select">Specialty</label>
-          <select id="specialty-select">
-            <option value="">All Specialties</option>
-          </select>
+          <select id="specialty-select"><option value="">All Specialties</option></select>
         </div>
         <div class="search-field">
-          <label for="location-select">Location</label>
-          <select id="location-select">
-            <option value="">All Locations</option>
-          </select>
+          <label for="region-select">Region</label>
+          <select id="region-select"><option value="">All Regions</option></select>
         </div>
         <button type="submit" class="btn btn-primary">
           <svg class="icon icon-sm" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
           Search
         </button>
+      </div>
+      <button type="button" class="more-filters-toggle" id="more-filters-toggle">+ More filters</button>
+      <div class="filters-panel" id="filters-panel">
+        <label class="filter-check"><input type="checkbox" id="filter-accepting" /> Accepting new patients</label>
+        <label class="filter-check"><input type="checkbox" id="filter-telehealth" /> Telehealth available</label>
+        <label class="filter-check"><input type="checkbox" id="filter-book-online" /> Online booking available</label>
+        <div class="search-field">
+          <label for="language-select">Language</label>
+          <select id="language-select"><option value="">Any Language</option></select>
+        </div>
+        <div class="search-field">
+          <label for="gender-select">Provider Gender</label>
+          <select id="gender-select"><option value="">Any</option></select>
+        </div>
+        <div class="search-field">
+          <label for="age-select">Age Group Seen</label>
+          <select id="age-select"><option value="">Any Age</option></select>
+        </div>
       </div>
     </form>
   </div>
@@ -235,10 +264,14 @@
       <p class="results-count" id="results-count"></p>
       <button type="button" class="clear-filters" id="clear-filters">Clear filters</button>
     </div>
+    <div class="loading-state" id="loading-state">Loading providers…</div>
     <div class="doctor-results-grid" id="doctor-results"></div>
     <div class="no-results" id="no-results" hidden>
       <h3>No doctors match your search</h3>
-      <p>Try a different name, specialty, or location — or clear your filters to see everyone.</p>
+      <p>Try a different name, specialty, or region — or clear your filters to see everyone.</p>
+    </div>
+    <div class="load-more-wrap" id="load-more-wrap" hidden>
+      <button type="button" class="btn btn-outline" id="load-more-btn">Load More Providers</button>
     </div>
   </div>
 </section>
@@ -256,7 +289,7 @@
       <h2 id="modal-name"></h2>
       <p class="specialty" id="modal-specialty"></p>
       <p class="creds" id="modal-creds"></p>
-      <p class="bio" id="modal-bio"></p>
+      <div class="modal-badges" id="modal-badges"></div>
       <div class="modal-detail-grid">
         <div class="modal-detail-row">
           <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
@@ -267,12 +300,12 @@
           <span id="modal-languages"></span>
         </div>
         <div class="modal-detail-row">
-          <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
-          <span id="modal-accepting"></span>
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          <span id="modal-ages"></span>
         </div>
       </div>
       <div class="modal-actions">
-        <a href="#" class="btn btn-primary">Request Appointment</a>
+        <a href="#" class="btn btn-primary" id="modal-cta">Request Appointment</a>
         <a href="index.html#locations" class="btn btn-outline">Get Directions</a>
       </div>
     </div>
@@ -350,35 +383,47 @@
 
 <script>
   (function() {
-    const DOCTORS = [
-      { id: 'sarah-mitchell', name: 'Dr. Sarah Mitchell', credentials: 'MD, FACC', specialty: 'Cardiology', category: 'Heart & Vascular', location: 'Hyro Health Medical Center', photo: 'doctor-1.png', languages: ['English'], accepting: true, color: 'hsl(240 70% 55%)', bio: 'Dr. Mitchell specializes in preventive cardiology and minimally invasive heart procedures, helping patients manage heart disease risk before it becomes critical.' },
-      { id: 'raj-patel', name: 'Dr. Raj Patel', credentials: 'MD, FACC', specialty: 'Interventional Cardiology', category: 'Heart & Vascular', location: 'Hyro Health – Westside', photo: null, languages: ['English', 'Hindi'], accepting: true, color: 'hsl(200 70% 50%)', bio: "Dr. Patel performs advanced cardiac catheterization procedures and leads Westside's structural heart program." },
-      { id: 'elena-rodriguez', name: 'Dr. Elena Rodriguez', credentials: 'MD, PhD', specialty: 'Neurosurgery', category: 'Neurosciences', location: 'Hyro Health Medical Center', photo: 'doctor-3.png', languages: ['English', 'Spanish'], accepting: false, color: 'hsl(280 60% 55%)', bio: 'Dr. Rodriguez is a fellowship-trained neurosurgeon focused on minimally invasive spine and brain tumor surgery.' },
-      { id: 'michael-chen', name: 'Dr. Michael Chen', credentials: 'MD', specialty: 'Neurology', category: 'Neurosciences', location: 'Hyro Health Pavilion', photo: null, languages: ['English', 'Mandarin'], accepting: true, color: 'hsl(160 55% 40%)', bio: 'Dr. Chen treats stroke, epilepsy, and movement disorders with a focus on personalized, evidence-based care.' },
-      { id: 'amara-okafor', name: 'Dr. Amara Okafor', credentials: 'MD, FACOG', specialty: 'Obstetrics & Gynecology', category: 'Women & Children', location: 'Hyro Health – Westside', photo: null, languages: ['English'], accepting: true, color: 'hsl(20 70% 55%)', bio: "Dr. Okafor provides comprehensive women's health care from routine wellness visits through high-risk pregnancy management." },
-      { id: 'lauren-kim', name: 'Dr. Lauren Kim', credentials: 'MD, FAAP', specialty: 'Pediatrics', category: 'Women & Children', location: 'Hyro Health Medical Center', photo: null, languages: ['English', 'Korean'], accepting: true, color: 'hsl(240 70% 55%)', bio: 'Dr. Kim has cared for children from newborn through adolescence for over a decade, with a special interest in developmental pediatrics.' },
-      { id: 'james-hartwell', name: 'Dr. James Hartwell', credentials: 'MD, FAAOS', specialty: 'Orthopedic Surgery', category: 'Orthopedics', location: 'Hyro Health Medical Center', photo: 'doctor-2.png', languages: ['English'], accepting: true, color: 'hsl(200 70% 50%)', bio: 'Dr. Hartwell specializes in joint replacement and complex reconstructive orthopedic surgery.' },
-      { id: 'carlos-mendoza', name: 'Dr. Carlos Mendoza', credentials: 'MD', specialty: 'Sports Medicine', category: 'Orthopedics', location: 'Hyro Health Pavilion', photo: null, languages: ['English', 'Spanish'], accepting: true, color: 'hsl(280 60% 55%)', bio: 'Dr. Mendoza works with athletes of all levels to treat and prevent sports-related injuries.' },
-      { id: 'priya-sharma', name: 'Dr. Priya Sharma', credentials: 'MD', specialty: 'Hematology & Oncology', category: 'Cancer Center', location: 'Hyro Health Medical Center', photo: null, languages: ['English', 'Hindi', 'Gujarati'], accepting: true, color: 'hsl(160 55% 40%)', bio: 'Dr. Sharma leads individualized treatment plans for patients with blood disorders and solid tumor cancers.' },
-      { id: 'thomas-reilly', name: 'Dr. Thomas Reilly', credentials: 'MD', specialty: 'Radiation Oncology', category: 'Cancer Center', location: 'Hyro Health Medical Center', photo: null, languages: ['English'], accepting: false, color: 'hsl(20 70% 55%)', bio: "Dr. Reilly designs precision radiation therapy plans as part of Hyro Health's multidisciplinary cancer program." },
-      { id: 'olivia-bennett', name: 'Dr. Olivia Bennett', credentials: 'MD', specialty: 'Family Medicine', category: 'Primary Care', location: 'Hyro Health – Westside', photo: null, languages: ['English'], accepting: true, color: 'hsl(240 70% 55%)', bio: 'Dr. Bennett provides whole-family primary care, from wellness exams to chronic condition management.' },
-      { id: 'david-nguyen', name: 'Dr. David Nguyen', credentials: 'MD', specialty: 'Internal Medicine', category: 'Primary Care', location: 'Hyro Health Pavilion', photo: null, languages: ['English', 'Vietnamese'], accepting: true, color: 'hsl(200 70% 50%)', bio: 'Dr. Nguyen focuses on preventive care and chronic disease management for adult patients.' },
-    ];
+    const PAGE_SIZE = 24;
+    let ALL_PROVIDERS = [];
+    let displayCount = PAGE_SIZE;
 
     const searchInput = document.getElementById('search-input');
     const specialtySelect = document.getElementById('specialty-select');
-    const locationSelect = document.getElementById('location-select');
+    const regionSelect = document.getElementById('region-select');
+    const languageSelect = document.getElementById('language-select');
+    const genderSelect = document.getElementById('gender-select');
+    const ageSelect = document.getElementById('age-select');
+    const acceptingCheck = document.getElementById('filter-accepting');
+    const telehealthCheck = document.getElementById('filter-telehealth');
+    const bookOnlineCheck = document.getElementById('filter-book-online');
     const searchForm = document.getElementById('search-form');
     const resultsGrid = document.getElementById('doctor-results');
     const resultsCount = document.getElementById('results-count');
     const noResults = document.getElementById('no-results');
+    const loadingState = document.getElementById('loading-state');
     const clearFiltersBtn = document.getElementById('clear-filters');
+    const moreFiltersToggle = document.getElementById('more-filters-toggle');
+    const filtersPanel = document.getElementById('filters-panel');
+    const loadMoreWrap = document.getElementById('load-more-wrap');
+    const loadMoreBtn = document.getElementById('load-more-btn');
+
+    moreFiltersToggle.addEventListener('click', () => {
+      const open = filtersPanel.classList.toggle('open');
+      moreFiltersToggle.textContent = open ? '– Fewer filters' : '+ More filters';
+    });
 
     function initials(name) {
-      return name.replace('Dr. ', '').split(' ').map(p => p[0]).join('').slice(0, 2).toUpperCase();
+      return name.replace(/^Dr\.\s*/, '').split(' ').map(p => p[0]).join('').slice(0, 2).toUpperCase();
     }
 
-    function populateSelect(select, values, allLabel) {
+    function avatarColor(seed) {
+      const colors = ['hsl(240 70% 55%)', 'hsl(200 70% 50%)', 'hsl(280 60% 55%)', 'hsl(160 55% 40%)', 'hsl(20 70% 55%)', 'hsl(330 60% 55%)'];
+      let hash = 0;
+      for (let i = 0; i < seed.length; i++) hash = (hash * 31 + seed.charCodeAt(i)) >>> 0;
+      return colors[hash % colors.length];
+    }
+
+    function populateSelect(select, values) {
       values.forEach(v => {
         const opt = document.createElement('option');
         opt.value = v;
@@ -387,66 +432,100 @@
       });
     }
 
-    const categories = [...new Set(DOCTORS.map(d => d.category))];
-    const locations = [...new Set(DOCTORS.map(d => d.location))];
-    populateSelect(specialtySelect, categories);
-    populateSelect(locationSelect, locations);
-
-    function doctorImgMarkup(doc, sizeClass) {
+    function doctorImgMarkup(doc, sizeClass, eager) {
       if (doc.photo) {
-        return `<img src="${doc.photo}" alt="${doc.name}" loading="lazy" />`;
+        const loadingAttr = eager ? 'eager' : 'lazy';
+        return `<img src="${doc.photo}" alt="${doc.name}" loading="${loadingAttr}" onerror="this.parentElement.innerHTML='<div class=&quot;${sizeClass}&quot; style=&quot;background:${avatarColor(doc.name)}&quot;>${initials(doc.name)}</div>'" />`;
       }
-      return `<div class="${sizeClass}" style="background:${doc.color}">${initials(doc.name)}</div>`;
+      return `<div class="${sizeClass}" style="background:${avatarColor(doc.name)}">${initials(doc.name)}</div>`;
     }
 
-    function renderResults() {
-      const q = searchInput.value.trim().toLowerCase();
-      const specialty = specialtySelect.value;
-      const location = locationSelect.value;
+    function getFilters() {
+      return {
+        q: searchInput.value.trim().toLowerCase(),
+        specialty: specialtySelect.value,
+        region: regionSelect.value,
+        language: languageSelect.value,
+        gender: genderSelect.value,
+        age: ageSelect.value,
+        accepting: acceptingCheck.checked,
+        telehealth: telehealthCheck.checked,
+        bookOnline: bookOnlineCheck.checked,
+      };
+    }
 
-      const filtered = DOCTORS.filter(doc => {
-        const matchesQuery = !q || doc.name.toLowerCase().includes(q) || doc.specialty.toLowerCase().includes(q) || doc.category.toLowerCase().includes(q);
-        const matchesSpecialty = !specialty || doc.category === specialty;
-        const matchesLocation = !location || doc.location === location;
-        return matchesQuery && matchesSpecialty && matchesLocation;
-      });
+    function matches(doc, f) {
+      if (f.q) {
+        const hay = (doc.name + ' ' + doc.specialty + ' ' + doc.practice + ' ' + doc.city).toLowerCase();
+        if (!hay.includes(f.q)) return false;
+      }
+      if (f.specialty && doc.specialty !== f.specialty) return false;
+      if (f.region && doc.region !== f.region) return false;
+      if (f.language && !doc.languages.includes(f.language)) return false;
+      if (f.gender && doc.gender !== f.gender) return false;
+      if (f.age && !doc.ages.includes(f.age)) return false;
+      if (f.accepting && !doc.accepting) return false;
+      if (f.telehealth && !doc.telehealth) return false;
+      if (f.bookOnline && !doc.bookOnline) return false;
+      return true;
+    }
 
-      resultsGrid.innerHTML = filtered.map(doc => `
+    function renderResults(resetCount) {
+      if (resetCount) displayCount = PAGE_SIZE;
+      const f = getFilters();
+      const filtered = ALL_PROVIDERS.filter(doc => matches(doc, f));
+      const shown = filtered.slice(0, displayCount);
+
+      resultsGrid.innerHTML = shown.map(doc => `
         <div class="doctor-result-card">
           <div class="doctor-result-img">${doctorImgMarkup(doc, 'avatar-initials')}</div>
           <div class="doctor-result-info">
-            <h3>${doc.name}</h3>
+            <h3>${doc.name}${doc.credentials ? ', ' + doc.credentials : ''}</h3>
             <p class="specialty">${doc.specialty}</p>
-            <p class="creds">${doc.credentials}</p>
+            <p class="creds">${doc.practice}</p>
             <div class="doctor-result-meta">
               <div class="meta-row">
                 <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                <span>${doc.location}</span>
+                <span>${doc.city}, ${doc.state} · ${doc.region}</span>
               </div>
             </div>
-            <span class="accepting-badge ${doc.accepting ? 'yes' : 'no'}">${doc.accepting ? '● Accepting new patients' : 'Not currently accepting new patients'}</span>
+            <div class="badge-row">
+              <span class="pill ${doc.accepting ? 'yes' : 'no'}">${doc.accepting ? '● Accepting new patients' : 'Not accepting new patients'}</span>
+              ${doc.telehealth ? '<span class="pill info">Telehealth</span>' : ''}
+              ${doc.bookOnline ? '<span class="pill info">Book online</span>' : ''}
+            </div>
             <button type="button" class="btn btn-outline view-profile-btn" data-doctor-id="${doc.id}">View Profile</button>
           </div>
         </div>
       `).join('');
 
-      resultsCount.innerHTML = filtered.length ? `Showing <strong>${filtered.length}</strong> of <strong>${DOCTORS.length}</strong> physicians` : '';
+      resultsCount.innerHTML = filtered.length ? `Showing <strong>${shown.length}</strong> of <strong>${filtered.length}</strong> matching providers (${ALL_PROVIDERS.length} total)` : '';
       noResults.hidden = filtered.length !== 0;
+      loadMoreWrap.hidden = shown.length >= filtered.length;
 
       resultsGrid.querySelectorAll('[data-doctor-id]').forEach(btn => {
         btn.addEventListener('click', () => openModal(btn.getAttribute('data-doctor-id')));
       });
     }
 
-    searchForm.addEventListener('submit', e => { e.preventDefault(); renderResults(); });
-    searchInput.addEventListener('input', renderResults);
-    specialtySelect.addEventListener('change', renderResults);
-    locationSelect.addEventListener('change', renderResults);
+    searchForm.addEventListener('submit', e => { e.preventDefault(); renderResults(true); });
+    [searchInput].forEach(el => el.addEventListener('input', () => renderResults(true)));
+    [specialtySelect, regionSelect, languageSelect, genderSelect, ageSelect, acceptingCheck, telehealthCheck, bookOnlineCheck].forEach(el => {
+      el.addEventListener('change', () => renderResults(true));
+    });
+    loadMoreBtn.addEventListener('click', () => { displayCount += PAGE_SIZE; renderResults(false); });
+
     clearFiltersBtn.addEventListener('click', () => {
       searchInput.value = '';
       specialtySelect.value = '';
-      locationSelect.value = '';
-      renderResults();
+      regionSelect.value = '';
+      languageSelect.value = '';
+      genderSelect.value = '';
+      ageSelect.value = '';
+      acceptingCheck.checked = false;
+      telehealthCheck.checked = false;
+      bookOnlineCheck.checked = false;
+      renderResults(true);
     });
 
     // ── Modal ──
@@ -455,23 +534,29 @@
     const modalName = document.getElementById('modal-name');
     const modalSpecialty = document.getElementById('modal-specialty');
     const modalCreds = document.getElementById('modal-creds');
-    const modalBio = document.getElementById('modal-bio');
+    const modalBadges = document.getElementById('modal-badges');
     const modalLocation = document.getElementById('modal-location');
     const modalLanguages = document.getElementById('modal-languages');
-    const modalAccepting = document.getElementById('modal-accepting');
+    const modalAges = document.getElementById('modal-ages');
     const modalClose = document.getElementById('modal-close');
+    const modalCta = document.getElementById('modal-cta');
 
     function openModal(id) {
-      const doc = DOCTORS.find(d => d.id === id);
+      const doc = ALL_PROVIDERS.find(d => d.id === id);
       if (!doc) return;
-      modalImgWrap.innerHTML = doctorImgMarkup(doc, 'modal-avatar-initials');
+      modalImgWrap.innerHTML = doctorImgMarkup(doc, 'modal-avatar-initials', true);
       modalName.textContent = doc.name;
       modalSpecialty.textContent = doc.specialty;
-      modalCreds.textContent = doc.credentials;
-      modalBio.textContent = doc.bio;
-      modalLocation.textContent = doc.location;
+      modalCreds.textContent = [doc.credentials, doc.type].filter(Boolean).join(' · ');
+      modalBadges.innerHTML = `
+        <span class="pill ${doc.accepting ? 'yes' : 'no'}">${doc.accepting ? '● Accepting new patients' : 'Not accepting new patients'}</span>
+        ${doc.telehealth ? '<span class="pill info">Telehealth</span>' : ''}
+        ${doc.bookOnline ? '<span class="pill info">Book online</span>' : ''}
+      `;
+      modalLocation.textContent = `${doc.practice} — ${doc.address}`;
       modalLanguages.textContent = doc.languages.join(', ');
-      modalAccepting.textContent = doc.accepting ? 'Accepting new patients' : 'Not currently accepting new patients';
+      modalAges.textContent = 'Sees: ' + doc.ages.join(', ');
+      modalCta.textContent = doc.bookOnline ? 'Book Online' : 'Request Appointment';
       modal.classList.add('open');
       document.body.classList.add('modal-open');
       history.replaceState(null, '', '?doctor=' + id);
@@ -487,13 +572,30 @@
     modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
     document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
-    renderResults();
+    fetch('data/providers.json')
+      .then(r => r.json())
+      .then(data => {
+        ALL_PROVIDERS = data;
+        loadingState.hidden = true;
 
-    const params = new URLSearchParams(window.location.search);
-    const preselect = params.get('doctor');
-    if (preselect && DOCTORS.some(d => d.id === preselect)) {
-      openModal(preselect);
-    }
+        populateSelect(specialtySelect, [...new Set(data.map(d => d.specialty))].sort());
+        populateSelect(regionSelect, [...new Set(data.map(d => d.region))].sort());
+        populateSelect(languageSelect, [...new Set(data.flatMap(d => d.languages))].sort());
+        populateSelect(genderSelect, [...new Set(data.map(d => d.gender))].sort());
+        const ageOrder = ['Infants & Toddlers', 'Children 5+', 'Teens', 'Adults', 'Adults 65+'];
+        populateSelect(ageSelect, ageOrder.filter(a => data.some(d => d.ages.includes(a))));
+
+        renderResults(true);
+
+        const params = new URLSearchParams(window.location.search);
+        const preselect = params.get('doctor');
+        if (preselect && ALL_PROVIDERS.some(d => d.id === preselect)) {
+          openModal(preselect);
+        }
+      })
+      .catch(() => {
+        loadingState.textContent = 'Could not load the provider directory. Please try again shortly.';
+      });
   })();
   </script>
 
