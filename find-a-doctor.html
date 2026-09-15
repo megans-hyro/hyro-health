@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Find a Doctor – Hyro Health</title>
+  <meta name="description" content="Search Hyro Health's physicians by name, specialty, or location to find the right doctor for you." />
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="icon" href="hyro-logo.png" type="image/png" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet" />
+  <style>
+    /* ── Reset & Base ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; border: 0; }
+    :root {
+      --bg: hsl(230 50% 97%);
+      --fg: hsl(235 40% 15%);
+      --card: hsl(0 0% 100%);
+      --primary: hsl(240 60% 44%);
+      --primary-fg: hsl(0 0% 100%);
+      --secondary: hsl(235 60% 95%);
+      --secondary-fg: hsl(240 60% 44%);
+      --muted: hsl(230 40% 93%);
+      --muted-fg: hsl(235 20% 46%);
+      --accent: hsl(240 80% 62%);
+      --accent-fg: hsl(0 0% 100%);
+      --border: hsl(230 30% 90%);
+      --gradient: linear-gradient(135deg, hsl(240 60% 44%), hsl(240 80% 62%));
+      --gradient-soft: linear-gradient(180deg, hsl(230 50% 97%), hsl(235 60% 95%));
+      --shadow: 0 4px 30px -8px hsl(240 60% 44% / 0.2);
+      --shadow-lg: 0 20px 60px -15px hsl(240 60% 44% / 0.25);
+      --radius: 1rem;
+    }
+    body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--fg); -webkit-font-smoothing: antialiased; line-height: 1.6; }
+    img { max-width: 100%; display: block; }
+    a { text-decoration: none; color: inherit; }
+
+    /* ── Utility ── */
+    .container { max-width: 1280px; margin: 0 auto; padding: 0 1rem; }
+    .text-gradient { background-image: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: .5rem; padding: .75rem 1.5rem; border-radius: .5rem; font-weight: 600; font-size: .875rem; cursor: pointer; transition: opacity .2s; font-family: inherit; border: none; }
+    .btn-primary { background-image: var(--gradient); color: var(--primary-fg); }
+    .btn-primary:hover { opacity: .9; }
+    .btn-outline { border: 1px solid var(--border); color: var(--fg); background: transparent; }
+    .btn-outline:hover { background: var(--secondary); }
+    .section-label { font-size: .75rem; font-weight: 600; letter-spacing: .15em; text-transform: uppercase; color: var(--accent); margin-bottom: .75rem; }
+
+    /* ── Navbar ── */
+    .navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 50; background: rgba(244,245,251,.8); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); }
+    .navbar-inner { display: flex; align-items: center; justify-content: space-between; height: 4rem; }
+    .navbar-brand { display: flex; align-items: center; gap: .5rem; font-size: 1.25rem; font-weight: 700; }
+    .navbar-brand img { height: 2rem; width: auto; }
+    .navbar-links { display: flex; align-items: center; gap: 2rem; }
+    .navbar-links a { font-size: .875rem; font-weight: 500; color: var(--muted-fg); transition: color .2s; }
+    .navbar-links a:hover, .navbar-links a.active { color: var(--fg); }
+    .navbar-actions { display: flex; align-items: center; gap: .75rem; }
+    .navbar-phone { font-size: .875rem; color: var(--muted-fg); display: flex; align-items: center; gap: .5rem; }
+    @media (max-width: 1023px) { .navbar-links, .navbar-actions { display: none; } }
+
+    /* ── SVG icons inline ── */
+    .icon { width: 1.25rem; height: 1.25rem; stroke: currentColor; stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
+    .icon-sm { width: 1rem; height: 1rem; }
+
+    /* ── Search hero ── */
+    .search-hero { padding: 8rem 0 3rem; background-image: var(--gradient-soft); }
+    .search-hero-text { text-align: center; max-width: 40rem; margin: 0 auto 2.5rem; }
+    .search-hero-text h1 { font-size: 2.5rem; font-weight: 700; margin-bottom: .75rem; }
+    .search-hero-text p { font-size: 1.125rem; color: var(--muted-fg); }
+    .search-box { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow-lg); padding: 1.5rem; max-width: 60rem; margin: 0 auto; }
+    .search-fields { display: grid; grid-template-columns: 2fr 1fr 1fr auto; gap: 1rem; align-items: end; }
+    .search-field label { display: block; font-size: .75rem; font-weight: 600; color: var(--muted-fg); margin-bottom: .5rem; }
+    .search-field input, .search-field select { width: 100%; padding: .75rem 1rem; border: 1px solid var(--border); border-radius: .5rem; font-size: .875rem; font-family: inherit; background: var(--card); color: var(--fg); }
+    .search-field input:focus, .search-field select:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+    .search-box .btn { padding: .75rem 1.5rem; white-space: nowrap; }
+    @media (max-width: 900px) { .search-fields { grid-template-columns: 1fr 1fr; } .search-box .btn { grid-column: 1 / -1; } }
+    @media (max-width: 560px) { .search-fields { grid-template-columns: 1fr; } }
+
+    /* ── Results ── */
+    .results { padding: 3rem 0 6rem; }
+    .results-bar { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; margin-bottom: 2rem; }
+    .results-count { font-size: .9375rem; color: var(--muted-fg); }
+    .results-count strong { color: var(--fg); }
+    .clear-filters { font-size: .875rem; font-weight: 600; color: var(--accent); cursor: pointer; background: none; }
+    .clear-filters:hover { text-decoration: underline; }
+
+    .doctor-results-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+    @media (max-width: 1023px) { .doctor-results-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 639px) { .doctor-results-grid { grid-template-columns: 1fr; } }
+
+    .doctor-result-card { display: flex; flex-direction: column; border-radius: var(--radius); overflow: hidden; background: var(--card); border: 1px solid var(--border); transition: box-shadow .3s, transform .3s; }
+    .doctor-result-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-2px); }
+    .doctor-result-img { aspect-ratio: 4/3; overflow: hidden; background: var(--secondary); }
+    .doctor-result-img img { width: 100%; height: 100%; object-fit: cover; }
+    .avatar-initials { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; font-weight: 700; color: white; }
+    .doctor-result-info { padding: 1.5rem; flex: 1; display: flex; flex-direction: column; }
+    .doctor-result-info h3 { font-size: 1.0625rem; font-weight: 700; }
+    .doctor-result-info .specialty { color: var(--accent); font-weight: 500; font-size: .875rem; margin-top: .25rem; }
+    .doctor-result-info .creds { color: var(--muted-fg); font-size: .75rem; margin-top: .125rem; }
+    .doctor-result-meta { margin-top: .875rem; display: flex; flex-direction: column; gap: .5rem; font-size: .8125rem; color: var(--muted-fg); }
+    .doctor-result-meta .meta-row { display: flex; align-items: flex-start; gap: .5rem; }
+    .doctor-result-meta svg { color: var(--accent); margin-top: 2px; }
+    .accepting-badge { display: inline-flex; align-items: center; gap: .375rem; font-size: .75rem; font-weight: 600; padding: .25rem .625rem; border-radius: 999px; width: fit-content; margin-top: .875rem; }
+    .accepting-badge.yes { background: hsl(150 55% 94%); color: hsl(150 55% 28%); }
+    .accepting-badge.no { background: hsl(230 30% 94%); color: var(--muted-fg); }
+    .doctor-result-info .view-profile-btn { margin-top: 1.25rem; width: 100%; }
+
+    .no-results { text-align: center; padding: 4rem 1rem; color: var(--muted-fg); }
+    .no-results h3 { font-size: 1.25rem; color: var(--fg); margin-bottom: .5rem; }
+
+    /* ── Doctor modal ── */
+    .modal-overlay { position: fixed; inset: 0; z-index: 200; background: rgba(21,22,43,.6); display: none; align-items: flex-start; justify-content: center; padding: 2rem 1rem; overflow-y: auto; }
+    .modal-overlay.open { display: flex; }
+    .modal-box { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow-lg); max-width: 34rem; width: 100%; overflow: hidden; margin: auto; }
+    .modal-header { position: relative; }
+    .modal-img { aspect-ratio: 16/9; overflow: hidden; background: var(--secondary); }
+    .modal-img img { width: 100%; height: 100%; object-fit: cover; }
+    .modal-avatar-initials { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 3.5rem; font-weight: 700; color: white; }
+    .modal-close { position: absolute; top: .75rem; right: .75rem; width: 2.25rem; height: 2.25rem; border-radius: 999px; background: rgba(0,0,0,.5); color: white; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+    .modal-body { padding: 2rem; }
+    .modal-body h2 { font-size: 1.375rem; font-weight: 700; }
+    .modal-body .specialty { color: var(--accent); font-weight: 500; margin-top: .25rem; }
+    .modal-body .creds { color: var(--muted-fg); font-size: .875rem; margin-top: .125rem; }
+    .modal-body .bio { margin: 1.25rem 0; color: var(--muted-fg); }
+    .modal-detail-grid { display: flex; flex-direction: column; gap: .75rem; margin-bottom: 1.5rem; }
+    .modal-detail-row { display: flex; align-items: flex-start; gap: .75rem; font-size: .875rem; }
+    .modal-detail-row svg { color: var(--accent); margin-top: 2px; }
+    .modal-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .modal-actions .btn { flex: 1; }
+    body.modal-open { overflow: hidden; }
+
+    /* ── Password gate ── */
+    .gate-overlay { position: fixed; inset: 0; z-index: 1000; background: var(--bg); display: flex; align-items: center; justify-content: center; padding: 1rem; }
+    .gate-box { width: 100%; max-width: 22rem; background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow-lg); padding: 2.5rem 2rem; text-align: center; }
+    .gate-logo { height: 2.5rem; width: auto; margin: 0 auto 1.5rem; }
+    .gate-box h2 { font-size: 1.25rem; font-weight: 700; margin-bottom: .5rem; }
+    .gate-box p { color: var(--muted-fg); font-size: .875rem; margin-bottom: 1.5rem; }
+    .gate-box input { width: 100%; padding: .75rem 1rem; border: 1px solid var(--border); border-radius: .5rem; font-size: .875rem; font-family: inherit; margin-bottom: 1rem; }
+    .gate-box input:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+    .gate-box button { width: 100%; justify-content: center; border: none; font-family: inherit; }
+    .gate-error { color: #c0392b; font-size: .8125rem; margin: .75rem 0 0; }
+    body.gate-locked { overflow: hidden; }
+
+    /* ── Footer ── */
+    .footer { padding: 3rem 0; background: var(--fg); color: rgba(255,255,255,.5); }
+    .footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 2rem; margin-bottom: 2.5rem; }
+    .footer-brand { display: flex; align-items: center; gap: .5rem; margin-bottom: 1rem; }
+    .footer-brand img { height: 1.75rem; filter: brightness(0) invert(1); }
+    .footer-brand span { font-size: 1.125rem; font-weight: 700; color: white; }
+    .footer p { font-size: .875rem; line-height: 1.7; }
+    .footer h4 { font-size: .875rem; font-weight: 600; color: white; margin-bottom: 1rem; }
+    .footer ul { list-style: none; }
+    .footer ul li { margin-bottom: .5rem; }
+    .footer ul a { font-size: .875rem; transition: color .2s; }
+    .footer ul a:hover { color: white; }
+    .footer-bottom { border-top: 1px solid rgba(255,255,255,.15); padding-top: 1.5rem; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; font-size: .75rem; }
+    .footer-bottom-links { display: flex; gap: 1.5rem; }
+    .footer-bottom-links a:hover { color: white; }
+    @media (max-width: 767px) { .footer-grid { grid-template-columns: 1fr 1fr; } }
+  </style>
+</head>
+<body>
+
+<div id="password-gate" class="gate-overlay">
+  <form id="gate-form" class="gate-box">
+    <img src="hyro-logo.png" alt="Hyro Health" class="gate-logo" />
+    <h2>This site is password protected</h2>
+    <p>Enter the password to continue.</p>
+    <input type="password" id="gate-password" placeholder="Password" autocomplete="off" autofocus />
+    <button type="submit" class="btn btn-primary">Enter</button>
+    <p id="gate-error" class="gate-error" hidden>Incorrect password. Try again.</p>
+  </form>
+</div>
+
+<!-- ═══════ NAVBAR ═══════ -->
+<nav class="navbar">
+  <div class="container navbar-inner">
+    <a href="index.html" class="navbar-brand">
+      <img src="hyro-logo.png" alt="Hyro Health" />
+      <span>Hyro <span class="text-gradient">Health</span></span>
+    </a>
+    <div class="navbar-links">
+      <a href="index.html#services">Services</a>
+      <a href="find-a-doctor.html" class="active">Find a Doctor</a>
+      <a href="index.html#locations">Locations</a>
+      <a href="index.html#patients">Patients &amp; Visitors</a>
+    </div>
+    <div class="navbar-actions">
+      <span class="navbar-phone">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        (571) 570-5712
+      </span>
+      <a href="#" class="btn btn-primary" style="padding:.5rem 1rem; font-size:.8125rem;">Patient Portal</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ═══════ SEARCH HERO ═══════ -->
+<section class="search-hero">
+  <div class="container">
+    <div class="search-hero-text">
+      <p class="section-label">Find a Doctor</p>
+      <h1>Find the right doctor <span class="text-gradient">for you</span></h1>
+      <p>Search our physicians by name, specialty, or condition — then filter by location to find care nearby.</p>
+    </div>
+    <form class="search-box" id="search-form">
+      <div class="search-fields">
+        <div class="search-field">
+          <label for="search-input">Condition, specialty, or provider name</label>
+          <input type="text" id="search-input" placeholder="e.g. Cardiology or Dr. Mitchell" autocomplete="off" />
+        </div>
+        <div class="search-field">
+          <label for="specialty-select">Specialty</label>
+          <select id="specialty-select">
+            <option value="">All Specialties</option>
+          </select>
+        </div>
+        <div class="search-field">
+          <label for="location-select">Location</label>
+          <select id="location-select">
+            <option value="">All Locations</option>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-primary">
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          Search
+        </button>
+      </div>
+    </form>
+  </div>
+</section>
+
+<!-- ═══════ RESULTS ═══════ -->
+<section class="results">
+  <div class="container">
+    <div class="results-bar">
+      <p class="results-count" id="results-count"></p>
+      <button type="button" class="clear-filters" id="clear-filters">Clear filters</button>
+    </div>
+    <div class="doctor-results-grid" id="doctor-results"></div>
+    <div class="no-results" id="no-results" hidden>
+      <h3>No doctors match your search</h3>
+      <p>Try a different name, specialty, or location — or clear your filters to see everyone.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ DOCTOR PROFILE MODAL ═══════ -->
+<div class="modal-overlay" id="doctor-modal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div class="modal-img" id="modal-img-wrap"></div>
+      <div class="modal-close" id="modal-close">
+        <svg class="icon icon-sm" viewBox="0 0 24 24" stroke="white"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </div>
+    </div>
+    <div class="modal-body">
+      <h2 id="modal-name"></h2>
+      <p class="specialty" id="modal-specialty"></p>
+      <p class="creds" id="modal-creds"></p>
+      <p class="bio" id="modal-bio"></p>
+      <div class="modal-detail-grid">
+        <div class="modal-detail-row">
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <span id="modal-location"></span>
+        </div>
+        <div class="modal-detail-row">
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          <span id="modal-languages"></span>
+        </div>
+        <div class="modal-detail-row">
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+          <span id="modal-accepting"></span>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <a href="#" class="btn btn-primary">Request Appointment</a>
+        <a href="index.html#locations" class="btn btn-outline">Get Directions</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════ FOOTER ═══════ -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">
+          <img src="hyro-logo.png" alt="Hyro Health" />
+          <span>Hyro Health</span>
+        </div>
+        <p>Compassionate, world-class healthcare for every stage of life. Serving our community since 1950.</p>
+      </div>
+      <div>
+        <h4>For Patients</h4>
+        <ul><li><a href="find-a-doctor.html">Find a Doctor</a></li><li><a href="#">Patient Portal</a></li><li><a href="#">Pay a Bill</a></li><li><a href="#">Medical Records</a></li></ul>
+      </div>
+      <div>
+        <h4>Our System</h4>
+        <ul><li><a href="#">About Us</a></li><li><a href="index.html#locations">Locations</a></li><li><a href="#">Careers</a></li><li><a href="#">Giving</a></li></ul>
+      </div>
+      <div>
+        <h4>Resources</h4>
+        <ul><li><a href="#">Health Library</a></li><li><a href="#">Classes &amp; Events</a></li><li><a href="#">News</a></li><li><a href="#">Contact Us</a></li></ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 Hyro Health System. All rights reserved.</p>
+      <div class="footer-bottom-links">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Use</a>
+        <a href="#">Non-Discrimination Notice</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+    (function() {
+      const SITE_PASSWORD = "superhyro2026";
+      const gate = document.getElementById('password-gate');
+      const form = document.getElementById('gate-form');
+      const input = document.getElementById('gate-password');
+      const error = document.getElementById('gate-error');
+
+      function unlock() {
+        gate.style.display = 'none';
+        document.body.classList.remove('gate-locked');
+      }
+
+      if (sessionStorage.getItem('hyro-health-unlocked') === 'true') {
+        unlock();
+      } else {
+        document.body.classList.add('gate-locked');
+      }
+
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        if (input.value === SITE_PASSWORD) {
+          sessionStorage.setItem('hyro-health-unlocked', 'true');
+          error.hidden = true;
+          unlock();
+        } else {
+          error.hidden = false;
+          input.value = '';
+          input.focus();
+        }
+      });
+    })();
+  </script>
+
+<script>
+  (function() {
+    const DOCTORS = [
+      { id: 'sarah-mitchell', name: 'Dr. Sarah Mitchell', credentials: 'MD, FACC', specialty: 'Cardiology', category: 'Heart & Vascular', location: 'Hyro Health Medical Center', photo: 'doctor-1.png', languages: ['English'], accepting: true, color: 'hsl(240 70% 55%)', bio: 'Dr. Mitchell specializes in preventive cardiology and minimally invasive heart procedures, helping patients manage heart disease risk before it becomes critical.' },
+      { id: 'raj-patel', name: 'Dr. Raj Patel', credentials: 'MD, FACC', specialty: 'Interventional Cardiology', category: 'Heart & Vascular', location: 'Hyro Health – Westside', photo: null, languages: ['English', 'Hindi'], accepting: true, color: 'hsl(200 70% 50%)', bio: "Dr. Patel performs advanced cardiac catheterization procedures and leads Westside's structural heart program." },
+      { id: 'elena-rodriguez', name: 'Dr. Elena Rodriguez', credentials: 'MD, PhD', specialty: 'Neurosurgery', category: 'Neurosciences', location: 'Hyro Health Medical Center', photo: 'doctor-3.png', languages: ['English', 'Spanish'], accepting: false, color: 'hsl(280 60% 55%)', bio: 'Dr. Rodriguez is a fellowship-trained neurosurgeon focused on minimally invasive spine and brain tumor surgery.' },
+      { id: 'michael-chen', name: 'Dr. Michael Chen', credentials: 'MD', specialty: 'Neurology', category: 'Neurosciences', location: 'Hyro Health Pavilion', photo: null, languages: ['English', 'Mandarin'], accepting: true, color: 'hsl(160 55% 40%)', bio: 'Dr. Chen treats stroke, epilepsy, and movement disorders with a focus on personalized, evidence-based care.' },
+      { id: 'amara-okafor', name: 'Dr. Amara Okafor', credentials: 'MD, FACOG', specialty: 'Obstetrics & Gynecology', category: 'Women & Children', location: 'Hyro Health – Westside', photo: null, languages: ['English'], accepting: true, color: 'hsl(20 70% 55%)', bio: "Dr. Okafor provides comprehensive women's health care from routine wellness visits through high-risk pregnancy management." },
+      { id: 'lauren-kim', name: 'Dr. Lauren Kim', credentials: 'MD, FAAP', specialty: 'Pediatrics', category: 'Women & Children', location: 'Hyro Health Medical Center', photo: null, languages: ['English', 'Korean'], accepting: true, color: 'hsl(240 70% 55%)', bio: 'Dr. Kim has cared for children from newborn through adolescence for over a decade, with a special interest in developmental pediatrics.' },
+      { id: 'james-hartwell', name: 'Dr. James Hartwell', credentials: 'MD, FAAOS', specialty: 'Orthopedic Surgery', category: 'Orthopedics', location: 'Hyro Health Medical Center', photo: 'doctor-2.png', languages: ['English'], accepting: true, color: 'hsl(200 70% 50%)', bio: 'Dr. Hartwell specializes in joint replacement and complex reconstructive orthopedic surgery.' },
+      { id: 'carlos-mendoza', name: 'Dr. Carlos Mendoza', credentials: 'MD', specialty: 'Sports Medicine', category: 'Orthopedics', location: 'Hyro Health Pavilion', photo: null, languages: ['English', 'Spanish'], accepting: true, color: 'hsl(280 60% 55%)', bio: 'Dr. Mendoza works with athletes of all levels to treat and prevent sports-related injuries.' },
+      { id: 'priya-sharma', name: 'Dr. Priya Sharma', credentials: 'MD', specialty: 'Hematology & Oncology', category: 'Cancer Center', location: 'Hyro Health Medical Center', photo: null, languages: ['English', 'Hindi', 'Gujarati'], accepting: true, color: 'hsl(160 55% 40%)', bio: 'Dr. Sharma leads individualized treatment plans for patients with blood disorders and solid tumor cancers.' },
+      { id: 'thomas-reilly', name: 'Dr. Thomas Reilly', credentials: 'MD', specialty: 'Radiation Oncology', category: 'Cancer Center', location: 'Hyro Health Medical Center', photo: null, languages: ['English'], accepting: false, color: 'hsl(20 70% 55%)', bio: "Dr. Reilly designs precision radiation therapy plans as part of Hyro Health's multidisciplinary cancer program." },
+      { id: 'olivia-bennett', name: 'Dr. Olivia Bennett', credentials: 'MD', specialty: 'Family Medicine', category: 'Primary Care', location: 'Hyro Health – Westside', photo: null, languages: ['English'], accepting: true, color: 'hsl(240 70% 55%)', bio: 'Dr. Bennett provides whole-family primary care, from wellness exams to chronic condition management.' },
+      { id: 'david-nguyen', name: 'Dr. David Nguyen', credentials: 'MD', specialty: 'Internal Medicine', category: 'Primary Care', location: 'Hyro Health Pavilion', photo: null, languages: ['English', 'Vietnamese'], accepting: true, color: 'hsl(200 70% 50%)', bio: 'Dr. Nguyen focuses on preventive care and chronic disease management for adult patients.' },
+    ];
+
+    const searchInput = document.getElementById('search-input');
+    const specialtySelect = document.getElementById('specialty-select');
+    const locationSelect = document.getElementById('location-select');
+    const searchForm = document.getElementById('search-form');
+    const resultsGrid = document.getElementById('doctor-results');
+    const resultsCount = document.getElementById('results-count');
+    const noResults = document.getElementById('no-results');
+    const clearFiltersBtn = document.getElementById('clear-filters');
+
+    function initials(name) {
+      return name.replace('Dr. ', '').split(' ').map(p => p[0]).join('').slice(0, 2).toUpperCase();
+    }
+
+    function populateSelect(select, values, allLabel) {
+      values.forEach(v => {
+        const opt = document.createElement('option');
+        opt.value = v;
+        opt.textContent = v;
+        select.appendChild(opt);
+      });
+    }
+
+    const categories = [...new Set(DOCTORS.map(d => d.category))];
+    const locations = [...new Set(DOCTORS.map(d => d.location))];
+    populateSelect(specialtySelect, categories);
+    populateSelect(locationSelect, locations);
+
+    function doctorImgMarkup(doc, sizeClass) {
+      if (doc.photo) {
+        return `<img src="${doc.photo}" alt="${doc.name}" loading="lazy" />`;
+      }
+      return `<div class="${sizeClass}" style="background:${doc.color}">${initials(doc.name)}</div>`;
+    }
+
+    function renderResults() {
+      const q = searchInput.value.trim().toLowerCase();
+      const specialty = specialtySelect.value;
+      const location = locationSelect.value;
+
+      const filtered = DOCTORS.filter(doc => {
+        const matchesQuery = !q || doc.name.toLowerCase().includes(q) || doc.specialty.toLowerCase().includes(q) || doc.category.toLowerCase().includes(q);
+        const matchesSpecialty = !specialty || doc.category === specialty;
+        const matchesLocation = !location || doc.location === location;
+        return matchesQuery && matchesSpecialty && matchesLocation;
+      });
+
+      resultsGrid.innerHTML = filtered.map(doc => `
+        <div class="doctor-result-card">
+          <div class="doctor-result-img">${doctorImgMarkup(doc, 'avatar-initials')}</div>
+          <div class="doctor-result-info">
+            <h3>${doc.name}</h3>
+            <p class="specialty">${doc.specialty}</p>
+            <p class="creds">${doc.credentials}</p>
+            <div class="doctor-result-meta">
+              <div class="meta-row">
+                <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                <span>${doc.location}</span>
+              </div>
+            </div>
+            <span class="accepting-badge ${doc.accepting ? 'yes' : 'no'}">${doc.accepting ? '● Accepting new patients' : 'Not currently accepting new patients'}</span>
+            <button type="button" class="btn btn-outline view-profile-btn" data-doctor-id="${doc.id}">View Profile</button>
+          </div>
+        </div>
+      `).join('');
+
+      resultsCount.innerHTML = filtered.length ? `Showing <strong>${filtered.length}</strong> of <strong>${DOCTORS.length}</strong> physicians` : '';
+      noResults.hidden = filtered.length !== 0;
+
+      resultsGrid.querySelectorAll('[data-doctor-id]').forEach(btn => {
+        btn.addEventListener('click', () => openModal(btn.getAttribute('data-doctor-id')));
+      });
+    }
+
+    searchForm.addEventListener('submit', e => { e.preventDefault(); renderResults(); });
+    searchInput.addEventListener('input', renderResults);
+    specialtySelect.addEventListener('change', renderResults);
+    locationSelect.addEventListener('change', renderResults);
+    clearFiltersBtn.addEventListener('click', () => {
+      searchInput.value = '';
+      specialtySelect.value = '';
+      locationSelect.value = '';
+      renderResults();
+    });
+
+    // ── Modal ──
+    const modal = document.getElementById('doctor-modal');
+    const modalImgWrap = document.getElementById('modal-img-wrap');
+    const modalName = document.getElementById('modal-name');
+    const modalSpecialty = document.getElementById('modal-specialty');
+    const modalCreds = document.getElementById('modal-creds');
+    const modalBio = document.getElementById('modal-bio');
+    const modalLocation = document.getElementById('modal-location');
+    const modalLanguages = document.getElementById('modal-languages');
+    const modalAccepting = document.getElementById('modal-accepting');
+    const modalClose = document.getElementById('modal-close');
+
+    function openModal(id) {
+      const doc = DOCTORS.find(d => d.id === id);
+      if (!doc) return;
+      modalImgWrap.innerHTML = doctorImgMarkup(doc, 'modal-avatar-initials');
+      modalName.textContent = doc.name;
+      modalSpecialty.textContent = doc.specialty;
+      modalCreds.textContent = doc.credentials;
+      modalBio.textContent = doc.bio;
+      modalLocation.textContent = doc.location;
+      modalLanguages.textContent = doc.languages.join(', ');
+      modalAccepting.textContent = doc.accepting ? 'Accepting new patients' : 'Not currently accepting new patients';
+      modal.classList.add('open');
+      document.body.classList.add('modal-open');
+      history.replaceState(null, '', '?doctor=' + id);
+    }
+
+    function closeModal() {
+      modal.classList.remove('open');
+      document.body.classList.remove('modal-open');
+      history.replaceState(null, '', window.location.pathname);
+    }
+
+    modalClose.addEventListener('click', closeModal);
+    modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+    renderResults();
+
+    const params = new URLSearchParams(window.location.search);
+    const preselect = params.get('doctor');
+    if (preselect && DOCTORS.some(d => d.id === preselect)) {
+      openModal(preselect);
+    }
+  })();
+  </script>
+
+<script>
+    window.HYRO_WIDGET_ID = "f642b065-9e12-4982-a217-3bf670d56719";
+    (function() {
+      const f = function() {
+        const d = document;
+        const l = d.createElement('script');
+        l.type = 'text/javascript';
+        l.async = true;
+        l.src = 'https://api.airbud.io/widgets/widget.js?id=' + window.HYRO_WIDGET_ID;
+        const x = d.getElementsByTagName('script')[0];
+        x.parentNode.insertBefore(l, x);
+      };
+      window.addEventListener('load', f, false);
+    })();
+  </script>
+
+</body>
+</html>
