@@ -287,6 +287,7 @@
     const PAGE_SIZE = 24;
     let ALL_LOCATIONS = [];
     let displayCount = PAGE_SIZE;
+    let locationIdFilter = null;
 
     const searchInput = document.getElementById('search-input');
     const categorySelect = document.getElementById('category-select');
@@ -329,6 +330,7 @@
     }
 
     function matches(loc, f) {
+      if (locationIdFilter) return loc.id === locationIdFilter;
       if (f.q) {
         const hay = (loc.practice + ' ' + loc.city + ' ' + loc.zip + ' ' + loc.category).toLowerCase();
         if (!hay.includes(f.q)) return false;
@@ -401,6 +403,28 @@
         const presetCategory = params.get('category');
         if (presetCategory && [...categorySelect.options].some(o => o.value === presetCategory)) {
           categorySelect.value = presetCategory;
+        }
+
+        const presetLocationId = params.get('location_id');
+        if (presetLocationId && ALL_LOCATIONS.some(l => l.id === presetLocationId)) {
+          locationIdFilter = presetLocationId;
+          const target = ALL_LOCATIONS.find(l => l.id === presetLocationId);
+          const label = document.createElement('p');
+          label.className = 'results-count';
+          label.style.marginBottom = '1rem';
+          label.textContent = 'Showing: ' + target.practice + ' — ';
+          const clearLink = document.createElement('button');
+          clearLink.type = 'button';
+          clearLink.className = 'clear-filters';
+          clearLink.textContent = 'Show all locations';
+          clearLink.addEventListener('click', () => {
+            locationIdFilter = null;
+            label.remove();
+            history.replaceState(null, '', window.location.pathname);
+            renderResults(true);
+          });
+          label.appendChild(clearLink);
+          document.querySelector('.results-bar').insertAdjacentElement('beforebegin', label);
         }
 
         renderResults(true);
