@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Primary Care – Hyro Health</title>
+  <meta name="description" content="Preventive health, wellness visits, chronic disease management, and same-day sick appointments for the whole family." />
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="icon" href="hyro-logo.png" type="image/png" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; border: 0; }
+    :root {
+      --bg: hsl(230 50% 97%);
+      --fg: hsl(235 40% 15%);
+      --card: hsl(0 0% 100%);
+      --primary: hsl(240 60% 44%);
+      --primary-fg: hsl(0 0% 100%);
+      --secondary: hsl(235 60% 95%);
+      --secondary-fg: hsl(240 60% 44%);
+      --muted: hsl(230 40% 93%);
+      --muted-fg: hsl(235 20% 46%);
+      --accent: hsl(240 80% 62%);
+      --accent-fg: hsl(0 0% 100%);
+      --border: hsl(230 30% 90%);
+      --gradient: linear-gradient(135deg, hsl(240 60% 44%), hsl(240 80% 62%));
+      --gradient-soft: linear-gradient(180deg, hsl(230 50% 97%), hsl(235 60% 95%));
+      --shadow: 0 4px 30px -8px hsl(240 60% 44% / 0.2);
+      --shadow-lg: 0 20px 60px -15px hsl(240 60% 44% / 0.25);
+      --radius: 1rem;
+    }
+    body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--fg); -webkit-font-smoothing: antialiased; line-height: 1.6; }
+    img { max-width: 100%; display: block; }
+    a { text-decoration: none; color: inherit; }
+    .container { max-width: 1280px; margin: 0 auto; padding: 0 1rem; }
+    .text-gradient { background-image: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: .5rem; padding: .75rem 1.5rem; border-radius: .5rem; font-weight: 600; font-size: .875rem; cursor: pointer; transition: opacity .2s; font-family: inherit; border: none; }
+    .btn-primary { background-image: var(--gradient); color: var(--primary-fg); }
+    .btn-primary:hover { opacity: .9; }
+    .btn-outline { border: 1px solid var(--border); color: var(--fg); background: transparent; }
+    .btn-outline:hover { background: var(--secondary); }
+    .section-label { font-size: .75rem; font-weight: 600; letter-spacing: .15em; text-transform: uppercase; color: var(--accent); margin-bottom: .75rem; }
+    .section-title { font-size: 2.25rem; font-weight: 700; margin-bottom: 1rem; }
+    .section-desc { font-size: 1.125rem; color: var(--muted-fg); max-width: 40rem; margin: 0 auto; }
+
+    .navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 50; background: rgba(244,245,251,.8); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); }
+    .navbar-inner { display: flex; align-items: center; justify-content: space-between; height: 4rem; }
+    .navbar-brand { display: flex; align-items: center; gap: .5rem; font-size: 1.25rem; font-weight: 700; }
+    .navbar-brand img { height: 2rem; width: auto; }
+    .navbar-links { display: flex; align-items: center; gap: 2rem; }
+    .navbar-links a { font-size: .875rem; font-weight: 500; color: var(--muted-fg); transition: color .2s; }
+    .navbar-links a:hover, .navbar-links a.active { color: var(--fg); }
+    .navbar-actions { display: flex; align-items: center; gap: .75rem; }
+    .navbar-phone { font-size: .875rem; color: var(--muted-fg); display: flex; align-items: center; gap: .5rem; }
+    @media (max-width: 1023px) { .navbar-links, .navbar-actions { display: none; } }
+
+    .icon { width: 1.25rem; height: 1.25rem; stroke: currentColor; stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
+    .icon-lg { width: 1.5rem; height: 1.5rem; }
+    .icon-sm { width: 1rem; height: 1rem; }
+
+    /* ── Service hero ── */
+    .service-hero { padding: 8rem 0 4rem; background-image: var(--gradient-soft); }
+    .service-hero-inner { display: flex; align-items: flex-start; gap: 1.5rem; max-width: 50rem; }
+    .service-hero-icon { width: 4rem; height: 4rem; border-radius: 1rem; background-image: var(--gradient); display: flex; align-items: center; justify-content: center; color: white; flex-shrink: 0; }
+    .service-hero-icon svg { width: 2rem; height: 2rem; }
+    .service-hero h1 { font-size: 2.5rem; font-weight: 700; margin-bottom: .75rem; }
+    .service-hero p { font-size: 1.125rem; color: var(--muted-fg); margin-bottom: 1.5rem; }
+    .service-hero-buttons { display: flex; flex-wrap: wrap; gap: 1rem; }
+    @media (max-width: 640px) { .service-hero-inner { flex-direction: column; } }
+
+    /* ── Two column lists ── */
+    .service-lists { padding: 5rem 0; }
+    .service-lists-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; }
+    .service-list-card h2 { font-size: 1.375rem; font-weight: 700; margin-bottom: 1.25rem; }
+    .service-list-card ul { list-style: none; display: flex; flex-direction: column; gap: .75rem; }
+    .service-list-card li { display: flex; align-items: flex-start; gap: .75rem; color: var(--muted-fg); font-size: .9375rem; }
+    .service-list-card li svg { color: var(--accent); flex-shrink: 0; margin-top: 3px; }
+    @media (max-width: 767px) { .service-lists-grid { grid-template-columns: 1fr; gap: 2.5rem; } }
+
+    /* ── Specialists ── */
+    .service-specialists { padding: 5rem 0; background-image: var(--gradient-soft); }
+    .specialists-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; margin-top: 2.5rem; }
+    .specialist-card { border-radius: var(--radius); overflow: hidden; background: var(--card); border: 1px solid var(--border); transition: box-shadow .3s; }
+    .specialist-card:hover { box-shadow: var(--shadow-lg); }
+    .specialist-img { aspect-ratio: 1/1; overflow: hidden; background: var(--secondary); }
+    .specialist-img img { width: 100%; height: 100%; object-fit: cover; }
+    .specialist-avatar-initials { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 1.75rem; font-weight: 700; color: white; }
+    .specialist-info { padding: 1.25rem; text-align: center; }
+    .specialist-info h3 { font-size: .9375rem; font-weight: 700; }
+    .specialist-info .specialty { color: var(--accent); font-weight: 500; font-size: .8125rem; margin-top: .25rem; }
+    .specialist-info a.profile-link { margin-top: .75rem; font-size: .8125rem; font-weight: 600; color: var(--accent); display: inline-block; }
+    .specialist-info a.profile-link:hover { text-decoration: underline; }
+    @media (max-width: 1023px) { .specialists-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 480px) { .specialists-grid { grid-template-columns: 1fr; } }
+    .view-all-link { text-align: center; margin-top: 2.5rem; }
+    .view-all-link a { color: var(--accent); font-weight: 600; }
+    .view-all-link a:hover { text-decoration: underline; }
+
+    /* ── Locations ── */
+    .service-locations { padding: 5rem 0; }
+    .service-locations-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 2.5rem; }
+    .service-location-card { padding: 1.5rem; border-radius: var(--radius); background: var(--card); border: 1px solid var(--border); }
+    .service-location-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: .75rem; }
+    .service-location-detail { display: flex; align-items: flex-start; gap: .625rem; color: var(--muted-fg); font-size: .8125rem; }
+    .service-location-detail svg { color: var(--accent); flex-shrink: 0; margin-top: 2px; }
+    @media (max-width: 1023px) { .service-locations-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 639px) { .service-locations-grid { grid-template-columns: 1fr; } }
+
+    /* ── CTA ── */
+    .cta { padding: 6rem 0; background-image: var(--gradient-soft); }
+    .cta-inner { max-width: 48rem; margin: 0 auto; text-align: center; }
+    .cta-inner h2 { font-size: 2.25rem; font-weight: 700; margin-bottom: 1rem; }
+    .cta-inner p { font-size: 1.125rem; color: var(--muted-fg); max-width: 36rem; margin: 0 auto 2rem; }
+    .cta-buttons { display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; }
+
+    .loading-state, .empty-state { text-align: center; padding: 2rem 1rem; color: var(--muted-fg); }
+
+    /* ── Password gate ── */
+    .gate-overlay { position: fixed; inset: 0; z-index: 1000; background: var(--bg); display: flex; align-items: center; justify-content: center; padding: 1rem; }
+    .gate-box { width: 100%; max-width: 22rem; background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow-lg); padding: 2.5rem 2rem; text-align: center; }
+    .gate-logo { height: 2.5rem; width: auto; margin: 0 auto 1.5rem; }
+    .gate-box h2 { font-size: 1.25rem; font-weight: 700; margin-bottom: .5rem; }
+    .gate-box p { color: var(--muted-fg); font-size: .875rem; margin-bottom: 1.5rem; }
+    .gate-box input { width: 100%; padding: .75rem 1rem; border: 1px solid var(--border); border-radius: .5rem; font-size: .875rem; font-family: inherit; margin-bottom: 1rem; }
+    .gate-box input:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+    .gate-box button { width: 100%; justify-content: center; border: none; font-family: inherit; }
+    .gate-error { color: #c0392b; font-size: .8125rem; margin: .75rem 0 0; }
+    body.gate-locked { overflow: hidden; }
+
+    /* ── Footer ── */
+    .footer { padding: 3rem 0; background: var(--fg); color: rgba(255,255,255,.5); }
+    .footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 2rem; margin-bottom: 2.5rem; }
+    .footer-brand { display: flex; align-items: center; gap: .5rem; margin-bottom: 1rem; }
+    .footer-brand img { height: 1.75rem; filter: brightness(0) invert(1); }
+    .footer-brand span { font-size: 1.125rem; font-weight: 700; color: white; }
+    .footer p { font-size: .875rem; line-height: 1.7; }
+    .footer h4 { font-size: .875rem; font-weight: 600; color: white; margin-bottom: 1rem; }
+    .footer ul { list-style: none; }
+    .footer ul li { margin-bottom: .5rem; }
+    .footer ul a { font-size: .875rem; transition: color .2s; }
+    .footer ul a:hover { color: white; }
+    .footer-bottom { border-top: 1px solid rgba(255,255,255,.15); padding-top: 1.5rem; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; font-size: .75rem; }
+    .footer-bottom-links { display: flex; gap: 1.5rem; }
+    .footer-bottom-links a:hover { color: white; }
+    @media (max-width: 767px) { .footer-grid { grid-template-columns: 1fr 1fr; } }
+  </style>
+</head>
+<body>
+
+<div id="password-gate" class="gate-overlay">
+  <form id="gate-form" class="gate-box">
+    <img src="hyro-logo.png" alt="Hyro Health" class="gate-logo" />
+    <h2>This site is password protected</h2>
+    <p>Enter the password to continue.</p>
+    <input type="password" id="gate-password" placeholder="Password" autocomplete="off" autofocus />
+    <button type="submit" class="btn btn-primary">Enter</button>
+    <p id="gate-error" class="gate-error" hidden>Incorrect password. Try again.</p>
+  </form>
+</div>
+
+<!-- ═══════ NAVBAR ═══════ -->
+<nav class="navbar">
+  <div class="container navbar-inner">
+    <a href="index.html" class="navbar-brand">
+      <img src="hyro-logo.png" alt="Hyro Health" />
+      <span>Hyro <span class="text-gradient">Health</span></span>
+    </a>
+    <div class="navbar-links">
+      <a href="index.html#services" class="active">Services</a>
+      <a href="find-a-doctor.html">Find a Doctor</a>
+      <a href="find-a-location.html">Locations</a>
+      <a href="patients.html">Patients &amp; Visitors</a>
+    </div>
+    <div class="navbar-actions">
+      <span class="navbar-phone">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        (571) 570-5712
+      </span>
+      <a href="#" class="btn btn-primary" style="padding:.5rem 1rem; font-size:.8125rem;">Patient Portal</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ═══════ SERVICE HERO ═══════ -->
+<section class="service-hero">
+  <div class="container">
+    <div class="service-hero-inner">
+      <div class="service-hero-icon">
+        <svg class="icon-lg icon" viewBox="0 0 24 24"><path d="M4.8 2.3A.3.3 0 1 0 5 2H4a2 2 0 0 0-2 2v5a6 6 0 0 0 6 6 6 6 0 0 0 6-6V4a2 2 0 0 0-2-2h-1a.2.2 0 1 0 .3.3"/><path d="M8 15v1a6 6 0 0 0 6 6 6 6 0 0 0 6-6v-4"/></svg>
+      </div>
+      <div>
+        <p class="section-label">Our Services</p>
+        <h1>Primary Care</h1>
+        <p>Preventive health, wellness visits, chronic disease management, and same-day sick appointments for the whole family.</p>
+        <div class="service-hero-buttons">
+          <a href="find-a-doctor.html?specialties=Family%20Medicine%2CInternal%20Medicine%2CGeriatric%20Medicine" class="btn btn-primary">Find a Specialist</a>
+          <a href="find-a-location.html?category=Primary%20Care" class="btn btn-outline">Find a Location</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ CONDITIONS & TREATMENTS ═══════ -->
+<section class="service-lists">
+  <div class="container">
+    <div class="service-lists-grid">
+      <div class="service-list-card">
+        <h2>Conditions We Treat</h2>
+        <ul>
+          <li><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span>Routine preventive care</span></li>
+          <li><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span>Diabetes & hypertension management</span></li>
+          <li><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span>Same-day illness (cold, flu, minor infections)</span></li>
+          <li><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span>Age-related health concerns</span></li>
+        </ul>
+      </div>
+      <div class="service-list-card">
+        <h2>Treatments &amp; Procedures</h2>
+        <ul>
+          <li><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span>Annual wellness exams</span></li>
+          <li><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span>Chronic condition management</span></li>
+          <li><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span>Immunizations & screenings</span></li>
+          <li><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span>Same-day / urgent primary care</span></li>
+          <li><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span>Care coordination & specialist referrals</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ SPECIALISTS ═══════ -->
+<section class="service-specialists">
+  <div class="container">
+    <div style="text-align:center; max-width:40rem; margin:0 auto;">
+      <p class="section-label">Our Team</p>
+      <h2 class="section-title">Meet our Primary Care <span class="text-gradient">specialists</span></h2>
+      <p class="section-desc">A sample of the Hyro Health providers who treat primary care conditions across our upstate New York network.</p>
+    </div>
+    <div class="loading-state" id="specialists-loading">Loading specialists…</div>
+    <div class="specialists-grid" id="specialists-grid"></div>
+    <div class="view-all-link">
+      <a href="find-a-doctor.html?specialties=Family%20Medicine%2CInternal%20Medicine%2CGeriatric%20Medicine">See all Primary Care providers →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ LOCATIONS ═══════ -->
+<section class="service-locations">
+  <div class="container">
+    <div style="text-align:center; max-width:40rem; margin:0 auto;">
+      <p class="section-label">Where to Go</p>
+      <h2 class="section-title">Primary Care <span class="text-gradient">locations</span></h2>
+      <p class="section-desc">A sample of Hyro Health locations offering primary care care.</p>
+    </div>
+    <div class="loading-state" id="locations-loading">Loading locations…</div>
+    <div class="service-locations-grid" id="locations-grid"></div>
+    <div class="view-all-link">
+      <a href="find-a-location.html?category=Primary%20Care">See all Primary Care locations →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ CTA ═══════ -->
+<section class="cta">
+  <div class="container">
+    <div class="cta-inner">
+      <h2>Need primary care care? <span class="text-gradient">We're here for you.</span></h2>
+      <p>Schedule an appointment with a Hyro Health Primary Care specialist near you.</p>
+      <div class="cta-buttons">
+        <a href="find-a-doctor.html?specialties=Family%20Medicine%2CInternal%20Medicine%2CGeriatric%20Medicine" class="btn btn-primary">Find a Specialist</a>
+        <a href="#" class="btn btn-outline">Call (571) 570-5712</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ FOOTER ═══════ -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">
+          <img src="hyro-logo.png" alt="Hyro Health" />
+          <span>Hyro Health</span>
+        </div>
+        <p>Compassionate, world-class healthcare for every stage of life. Serving our community since 1950.</p>
+      </div>
+      <div>
+        <h4>For Patients</h4>
+        <ul><li><a href="find-a-doctor.html">Find a Doctor</a></li><li><a href="#">Patient Portal</a></li><li><a href="patients.html#billing">Pay a Bill</a></li><li><a href="patients.html#medical-records">Medical Records</a></li></ul>
+      </div>
+      <div>
+        <h4>Our System</h4>
+        <ul><li><a href="#">About Us</a></li><li><a href="find-a-location.html">Locations</a></li><li><a href="#">Careers</a></li><li><a href="#">Giving</a></li></ul>
+      </div>
+      <div>
+        <h4>Resources</h4>
+        <ul><li><a href="#">Health Library</a></li><li><a href="#">Classes &amp; Events</a></li><li><a href="#">News</a></li><li><a href="patients.html#contact">Contact Us</a></li></ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 Hyro Health System. All rights reserved.</p>
+      <div class="footer-bottom-links">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Use</a>
+        <a href="#">Non-Discrimination Notice</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+    (function() {
+      const SITE_PASSWORD = "superhyro2026";
+      const gate = document.getElementById('password-gate');
+      const form = document.getElementById('gate-form');
+      const input = document.getElementById('gate-password');
+      const error = document.getElementById('gate-error');
+
+      function unlock() {
+        gate.style.display = 'none';
+        document.body.classList.remove('gate-locked');
+      }
+
+      if (sessionStorage.getItem('hyro-health-unlocked') === 'true') {
+        unlock();
+      } else {
+        document.body.classList.add('gate-locked');
+      }
+
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        if (input.value === SITE_PASSWORD) {
+          sessionStorage.setItem('hyro-health-unlocked', 'true');
+          error.hidden = true;
+          unlock();
+        } else {
+          error.hidden = false;
+          input.value = '';
+          input.focus();
+        }
+      });
+    })();
+  </script>
+
+<script>
+  (function() {
+    const SPECIALTIES = ["Family Medicine", "Internal Medicine", "Geriatric Medicine"];
+    const LOCATION_CATEGORY = "Primary Care";
+
+    function initials(name) {
+      return name.replace(/^Dr\.\s*/, '').split(' ').map(p => p[0]).join('').slice(0, 2).toUpperCase();
+    }
+    function avatarColor(seed) {
+      const colors = ['hsl(240 70% 55%)', 'hsl(200 70% 50%)', 'hsl(280 60% 55%)', 'hsl(160 55% 40%)', 'hsl(20 70% 55%)', 'hsl(330 60% 55%)'];
+      let hash = 0;
+      for (let i = 0; i < seed.length; i++) hash = (hash * 31 + seed.charCodeAt(i)) >>> 0;
+      return colors[hash % colors.length];
+    }
+    function specialistImg(doc) {
+      if (doc.photo) {
+        return `<img src="${doc.photo}" alt="${doc.name}" loading="lazy" onerror="this.parentElement.innerHTML='<div class=&quot;specialist-avatar-initials&quot; style=&quot;background:${avatarColor(doc.name)}&quot;>${initials(doc.name)}</div>'" />`;
+      }
+      return `<div class="specialist-avatar-initials" style="background:${avatarColor(doc.name)}">${initials(doc.name)}</div>`;
+    }
+
+    fetch('data/providers.json')
+      .then(r => r.json())
+      .then(data => {
+        const matches = data.filter(d => SPECIALTIES.includes(d.specialty)).slice(0, 8);
+        const grid = document.getElementById('specialists-grid');
+        document.getElementById('specialists-loading').hidden = true;
+        if (!matches.length) {
+          grid.innerHTML = '<p class="empty-state" style="grid-column:1/-1;">No specialists found.</p>';
+          return;
+        }
+        grid.innerHTML = matches.map(doc => `
+          <div class="specialist-card">
+            <div class="specialist-img">${specialistImg(doc)}</div>
+            <div class="specialist-info">
+              <h3>${doc.name}${doc.credentials ? ', ' + doc.credentials : ''}</h3>
+              <p class="specialty">${doc.specialty}</p>
+              <a href="find-a-doctor.html?doctor=${doc.id}" class="profile-link">View Profile →</a>
+            </div>
+          </div>
+        `).join('');
+      });
+
+    fetch('data/locations.json')
+      .then(r => r.json())
+      .then(data => {
+        const matches = data.filter(l => l.category === LOCATION_CATEGORY).slice(0, 6);
+        const grid = document.getElementById('locations-grid');
+        document.getElementById('locations-loading').hidden = true;
+        if (!matches.length) {
+          grid.innerHTML = '<p class="empty-state" style="grid-column:1/-1;">No locations found.</p>';
+          return;
+        }
+        grid.innerHTML = matches.map(loc => `
+          <div class="service-location-card">
+            <h3>${loc.practice}</h3>
+            <div class="service-location-detail">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              <span>${loc.address}</span>
+            </div>
+          </div>
+        `).join('');
+      });
+  })();
+  </script>
+
+<script>
+    window.HYRO_WIDGET_ID = "f642b065-9e12-4982-a217-3bf670d56719";
+    (function() {
+      const f = function() {
+        const d = document;
+        const l = d.createElement('script');
+        l.type = 'text/javascript';
+        l.async = true;
+        l.src = 'https://api.airbud.io/widgets/widget.js?id=' + window.HYRO_WIDGET_ID;
+        const x = d.getElementsByTagName('script')[0];
+        x.parentNode.insertBefore(l, x);
+      };
+      window.addEventListener('load', f, false);
+    })();
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Patients & Visitors – Hyro Health</title>
+  <meta name="description" content="Insurance & billing, medical records, pre-registration, visiting policies, and answers to common patient questions at Hyro Health." />
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="icon" href="hyro-logo.png" type="image/png" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; border: 0; }
+    :root {
+      --bg: hsl(230 50% 97%);
+      --fg: hsl(235 40% 15%);
+      --card: hsl(0 0% 100%);
+      --primary: hsl(240 60% 44%);
+      --primary-fg: hsl(0 0% 100%);
+      --secondary: hsl(235 60% 95%);
+      --secondary-fg: hsl(240 60% 44%);
+      --muted: hsl(230 40% 93%);
+      --muted-fg: hsl(235 20% 46%);
+      --accent: hsl(240 80% 62%);
+      --accent-fg: hsl(0 0% 100%);
+      --border: hsl(230 30% 90%);
+      --gradient: linear-gradient(135deg, hsl(240 60% 44%), hsl(240 80% 62%));
+      --gradient-soft: linear-gradient(180deg, hsl(230 50% 97%), hsl(235 60% 95%));
+      --shadow: 0 4px 30px -8px hsl(240 60% 44% / 0.2);
+      --shadow-lg: 0 20px 60px -15px hsl(240 60% 44% / 0.25);
+      --radius: 1rem;
+    }
+    body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--fg); -webkit-font-smoothing: antialiased; line-height: 1.6; }
+    img { max-width: 100%; display: block; }
+    a { text-decoration: none; color: inherit; }
+    .container { max-width: 1280px; margin: 0 auto; padding: 0 1rem; }
+    .text-gradient { background-image: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: .5rem; padding: .75rem 1.5rem; border-radius: .5rem; font-weight: 600; font-size: .875rem; cursor: pointer; transition: opacity .2s; font-family: inherit; border: none; }
+    .btn-primary { background-image: var(--gradient); color: var(--primary-fg); }
+    .btn-primary:hover { opacity: .9; }
+    .btn-outline { border: 1px solid var(--border); color: var(--fg); background: transparent; }
+    .btn-outline:hover { background: var(--secondary); }
+    .section-label { font-size: .75rem; font-weight: 600; letter-spacing: .15em; text-transform: uppercase; color: var(--accent); margin-bottom: .75rem; }
+    .section-title { font-size: 2rem; font-weight: 700; margin-bottom: 1rem; }
+    .section-desc { font-size: 1.0625rem; color: var(--muted-fg); max-width: 40rem; }
+
+    .navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 50; background: rgba(244,245,251,.8); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); }
+    .navbar-inner { display: flex; align-items: center; justify-content: space-between; height: 4rem; }
+    .navbar-brand { display: flex; align-items: center; gap: .5rem; font-size: 1.25rem; font-weight: 700; }
+    .navbar-brand img { height: 2rem; width: auto; }
+    .navbar-links { display: flex; align-items: center; gap: 2rem; }
+    .navbar-links a { font-size: .875rem; font-weight: 500; color: var(--muted-fg); transition: color .2s; }
+    .navbar-links a:hover, .navbar-links a.active { color: var(--fg); }
+    .navbar-actions { display: flex; align-items: center; gap: .75rem; }
+    .navbar-phone { font-size: .875rem; color: var(--muted-fg); display: flex; align-items: center; gap: .5rem; }
+    @media (max-width: 1023px) { .navbar-links, .navbar-actions { display: none; } }
+
+    .icon { width: 1.25rem; height: 1.25rem; stroke: currentColor; stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
+    .icon-sm { width: 1rem; height: 1rem; }
+
+    /* ── Hero ── */
+    .patients-hero { padding: 8rem 0 3rem; background-image: var(--gradient-soft); }
+    .patients-hero-text { max-width: 40rem; }
+    .patients-hero h1 { font-size: 2.5rem; font-weight: 700; margin-bottom: .75rem; }
+    .patients-hero p { font-size: 1.125rem; color: var(--muted-fg); }
+
+    /* ── Jump nav ── */
+    .jump-nav { position: sticky; top: 4rem; z-index: 20; background: var(--card); border-bottom: 1px solid var(--border); }
+    .jump-nav-inner { display: flex; gap: .5rem; overflow-x: auto; padding: 1rem; scrollbar-width: none; }
+    .jump-nav-inner::-webkit-scrollbar { display: none; }
+    .jump-pill { flex-shrink: 0; padding: .5rem 1rem; border-radius: 999px; background: var(--secondary); color: var(--secondary-fg); font-size: .8125rem; font-weight: 600; white-space: nowrap; }
+    .jump-pill:hover { opacity: .85; }
+
+    /* ── Content sections ── */
+    .patient-section { padding: 4rem 0; border-bottom: 1px solid var(--border); scroll-margin-top: 8rem; }
+    .patient-section:last-of-type { border-bottom: none; }
+    .patient-section-header { margin-bottom: 2.5rem; max-width: 44rem; }
+    .patient-grid { display: grid; grid-template-columns: 1.3fr 1fr; gap: 3rem; align-items: start; }
+    @media (max-width: 900px) { .patient-grid { grid-template-columns: 1fr; gap: 2rem; } }
+
+    .plan-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: .75rem; margin: 1.5rem 0; }
+    .plan-chip { padding: .75rem 1rem; border-radius: .5rem; background: var(--card); border: 1px solid var(--border); font-size: .875rem; font-weight: 500; }
+    @media (max-width: 480px) { .plan-list { grid-template-columns: 1fr; } }
+
+    .info-card { padding: 1.75rem; border-radius: var(--radius); background: var(--card); border: 1px solid var(--border); }
+    .info-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 1rem; display: flex; align-items: center; gap: .625rem; }
+    .info-card h3 svg { color: var(--accent); }
+    .info-card ul { list-style: none; display: flex; flex-direction: column; gap: .625rem; margin-bottom: 1.25rem; }
+    .info-card li { display: flex; align-items: flex-start; gap: .625rem; font-size: .875rem; color: var(--muted-fg); }
+    .info-card li svg { color: var(--accent); flex-shrink: 0; margin-top: 2px; }
+    .info-card + .info-card { margin-top: 1.5rem; }
+
+    .step-list { display: flex; flex-direction: column; gap: 1.25rem; margin-top: 1.5rem; }
+    .step { display: flex; gap: 1rem; }
+    .step-num { width: 2rem; height: 2rem; border-radius: 999px; background-image: var(--gradient); color: white; display: flex; align-items: center; justify-content: center; font-size: .8125rem; font-weight: 700; flex-shrink: 0; }
+    .step p { color: var(--muted-fg); font-size: .9375rem; }
+    .step strong { color: var(--fg); display: block; margin-bottom: .125rem; }
+
+    .policy-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; margin-top: 1.5rem; }
+    @media (max-width: 767px) { .policy-grid { grid-template-columns: 1fr; } }
+
+    .faq-item { border-bottom: 1px solid var(--border); padding: 1.25rem 0; }
+    .faq-item:first-child { border-top: 1px solid var(--border); }
+    .faq-item summary { cursor: pointer; font-weight: 600; list-style: none; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+    .faq-item summary::-webkit-details-marker { display: none; }
+    .faq-item summary::after { content: '+'; font-size: 1.25rem; color: var(--accent); flex-shrink: 0; }
+    .faq-item[open] summary::after { content: '–'; }
+    .faq-item p { color: var(--muted-fg); margin-top: .75rem; font-size: .9375rem; }
+
+    .contact-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 1.5rem; }
+    @media (max-width: 900px) { .contact-grid { grid-template-columns: 1fr; } }
+    .contact-card { padding: 1.75rem; border-radius: var(--radius); background: var(--card); border: 1px solid var(--border); }
+    .contact-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: .75rem; }
+    .contact-card p { font-size: .875rem; color: var(--muted-fg); margin-bottom: .25rem; }
+    .contact-card a.card-link { display: inline-block; margin-top: .75rem; font-size: .875rem; font-weight: 600; color: var(--accent); }
+    .contact-card a.card-link:hover { text-decoration: underline; }
+    .emergency-banner { background: hsl(0 70% 96%); border: 1px solid hsl(0 60% 88%); color: hsl(0 60% 35%); border-radius: var(--radius); padding: 1.25rem 1.5rem; display: flex; align-items: center; gap: .75rem; font-size: .9375rem; font-weight: 600; margin-bottom: 2rem; }
+
+    /* ── CTA ── */
+    .cta { padding: 6rem 0; background-image: var(--gradient-soft); }
+    .cta-inner { max-width: 48rem; margin: 0 auto; text-align: center; }
+    .cta-inner h2 { font-size: 2.25rem; font-weight: 700; margin-bottom: 1rem; }
+    .cta-inner p { font-size: 1.125rem; color: var(--muted-fg); max-width: 36rem; margin: 0 auto 2rem; }
+    .cta-buttons { display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; }
+
+    /* ── Password gate ── */
+    .gate-overlay { position: fixed; inset: 0; z-index: 1000; background: var(--bg); display: flex; align-items: center; justify-content: center; padding: 1rem; }
+    .gate-box { width: 100%; max-width: 22rem; background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow-lg); padding: 2.5rem 2rem; text-align: center; }
+    .gate-logo { height: 2.5rem; width: auto; margin: 0 auto 1.5rem; }
+    .gate-box h2 { font-size: 1.25rem; font-weight: 700; margin-bottom: .5rem; }
+    .gate-box p { color: var(--muted-fg); font-size: .875rem; margin-bottom: 1.5rem; }
+    .gate-box input { width: 100%; padding: .75rem 1rem; border: 1px solid var(--border); border-radius: .5rem; font-size: .875rem; font-family: inherit; margin-bottom: 1rem; }
+    .gate-box input:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+    .gate-box button { width: 100%; justify-content: center; border: none; font-family: inherit; }
+    .gate-error { color: #c0392b; font-size: .8125rem; margin: .75rem 0 0; }
+    body.gate-locked { overflow: hidden; }
+
+    /* ── Footer ── */
+    .footer { padding: 3rem 0; background: var(--fg); color: rgba(255,255,255,.5); }
+    .footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 2rem; margin-bottom: 2.5rem; }
+    .footer-brand { display: flex; align-items: center; gap: .5rem; margin-bottom: 1rem; }
+    .footer-brand img { height: 1.75rem; filter: brightness(0) invert(1); }
+    .footer-brand span { font-size: 1.125rem; font-weight: 700; color: white; }
+    .footer p { font-size: .875rem; line-height: 1.7; }
+    .footer h4 { font-size: .875rem; font-weight: 600; color: white; margin-bottom: 1rem; }
+    .footer ul { list-style: none; }
+    .footer ul li { margin-bottom: .5rem; }
+    .footer ul a { font-size: .875rem; transition: color .2s; }
+    .footer ul a:hover { color: white; }
+    .footer-bottom { border-top: 1px solid rgba(255,255,255,.15); padding-top: 1.5rem; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; font-size: .75rem; }
+    .footer-bottom-links { display: flex; gap: 1.5rem; }
+    .footer-bottom-links a:hover { color: white; }
+    @media (max-width: 767px) { .footer-grid { grid-template-columns: 1fr 1fr; } }
+  </style>
+</head>
+<body>
+
+<div id="password-gate" class="gate-overlay">
+  <form id="gate-form" class="gate-box">
+    <img src="hyro-logo.png" alt="Hyro Health" class="gate-logo" />
+    <h2>This site is password protected</h2>
+    <p>Enter the password to continue.</p>
+    <input type="password" id="gate-password" placeholder="Password" autocomplete="off" autofocus />
+    <button type="submit" class="btn btn-primary">Enter</button>
+    <p id="gate-error" class="gate-error" hidden>Incorrect password. Try again.</p>
+  </form>
+</div>
+
+<!-- ═══════ NAVBAR ═══════ -->
+<nav class="navbar">
+  <div class="container navbar-inner">
+    <a href="index.html" class="navbar-brand">
+      <img src="hyro-logo.png" alt="Hyro Health" />
+      <span>Hyro <span class="text-gradient">Health</span></span>
+    </a>
+    <div class="navbar-links">
+      <a href="index.html#services">Services</a>
+      <a href="find-a-doctor.html">Find a Doctor</a>
+      <a href="find-a-location.html">Locations</a>
+      <a href="patients.html" class="active">Patients &amp; Visitors</a>
+    </div>
+    <div class="navbar-actions">
+      <span class="navbar-phone">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        (571) 570-5712
+      </span>
+      <a href="#" class="btn btn-primary" style="padding:.5rem 1rem; font-size:.8125rem;">Patient Portal</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ═══════ HERO ═══════ -->
+<section class="patients-hero">
+  <div class="container patients-hero-text">
+    <p class="section-label">Patients &amp; Visitors</p>
+    <h1>Everything you need for your visit</h1>
+    <p>Insurance &amp; billing, medical records, pre-registration, and answers to the questions patients and families ask us most.</p>
+  </div>
+</section>
+
+<!-- ═══════ JUMP NAV ═══════ -->
+<div class="jump-nav">
+  <div class="container jump-nav-inner">
+    <a href="#billing" class="jump-pill">Insurance &amp; Billing</a>
+    <a href="#medical-records" class="jump-pill">Medical Records</a>
+    <a href="#pre-registration" class="jump-pill">Pre-Registration</a>
+    <a href="#visiting" class="jump-pill">Visiting Policies</a>
+    <a href="#faq" class="jump-pill">FAQ</a>
+    <a href="#contact" class="jump-pill">Contact Us</a>
+  </div>
+</div>
+
+<!-- ═══════ INSURANCE & BILLING ═══════ -->
+<section id="billing" class="patient-section">
+  <div class="container">
+    <div class="patient-grid">
+      <div>
+        <div class="patient-section-header">
+          <p class="section-label">Insurance &amp; Billing</p>
+          <h2 class="section-title">Plans we accept</h2>
+          <p class="section-desc">Hyro Health participates with most major insurance plans. Always confirm your specific plan and coverage with your insurer before your visit.</p>
+        </div>
+        <div class="plan-list">
+          <span class="plan-chip">Aetna</span>
+          <span class="plan-chip">Anthem Blue Cross Blue Shield</span>
+          <span class="plan-chip">Cigna</span>
+          <span class="plan-chip">Excellus BlueCross BlueShield</span>
+          <span class="plan-chip">MVP Health Care</span>
+          <span class="plan-chip">UnitedHealthcare</span>
+          <span class="plan-chip">Medicare</span>
+          <span class="plan-chip">Medicaid</span>
+        </div>
+        <a href="#" class="btn btn-primary">Pay Your Bill Online</a>
+      </div>
+      <div>
+        <div class="info-card">
+          <h3><svg class="icon icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>Billing basics</h3>
+          <ul>
+            <li><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span>You'll typically receive a bill within 2–4 weeks after your visit, once your insurance has processed the claim.</span></li>
+            <li><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span>Interest-free payment plans are available — ask a billing representative or set one up through MyHyro.</span></li>
+            <li><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span>Uninsured and underinsured patients may qualify for financial assistance based on household income.</span></li>
+            <li><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span>Request an itemized bill any time by contacting Patient Billing.</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ MEDICAL RECORDS ═══════ -->
+<section id="medical-records" class="patient-section">
+  <div class="container">
+    <div class="patient-grid">
+      <div>
+        <div class="patient-section-header">
+          <p class="section-label">Medical Records</p>
+          <h2 class="section-title">Requesting your records</h2>
+          <p class="section-desc">Most patients can view test results, visit summaries, and immunization history directly in MyHyro. For a full copy of your chart, submit a records request.</p>
+        </div>
+        <div class="step-list">
+          <div class="step">
+            <div class="step-num">1</div>
+            <p><strong>Log in to MyHyro</strong>View recent results and visit notes instantly, or start a records request from your account.</p>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <p><strong>Or submit a written request</strong>Complete a Release of Information form and return it to your care location or Health Information Management.</p>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <p><strong>Processing</strong>Most requests are fulfilled within 5 business days. Urgent requests (e.g., for continuity of care) are prioritized.</p>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="info-card">
+          <h3><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10"/><path d="M12 2v10l7-7"/></svg>Who can request records</h3>
+          <ul>
+            <li><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span>The patient (18 or older)</span></li>
+            <li><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span>A parent or legal guardian of a minor patient</span></li>
+            <li><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span>An authorized representative with a signed release on file</span></li>
+          </ul>
+          <a href="#" class="btn btn-outline" style="width:100%;">Log In to MyHyro</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ PRE-REGISTRATION ═══════ -->
+<section id="pre-registration" class="patient-section">
+  <div class="container">
+    <div class="patient-grid">
+      <div>
+        <div class="patient-section-header">
+          <p class="section-label">Pre-Registration</p>
+          <h2 class="section-title">Get ready for your visit</h2>
+          <p class="section-desc">Completing pre-registration ahead of time means less paperwork and a shorter wait when you arrive.</p>
+        </div>
+        <div class="step-list">
+          <div class="step">
+            <div class="step-num">1</div>
+            <p><strong>Complete forms online</strong>New and returning patients can fill out intake, consent, and history forms through MyHyro before their appointment.</p>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <p><strong>Gather what you'll need</strong>Photo ID, insurance card, a list of current medications, and any referral or prior imaging your provider requested.</p>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <p><strong>Arrive a little early</strong>New patients: please arrive 20 minutes before your appointment. Returning patients: 10 minutes is usually enough.</p>
+          </div>
+        </div>
+      </div>
+      <div class="info-card">
+        <h3><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>What to bring</h3>
+        <ul>
+          <li><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span>Government-issued photo ID</span></li>
+          <li><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span>Insurance card(s)</span></li>
+          <li><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span>Current medication list</span></li>
+          <li><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span>Referral or prior records, if applicable</span></li>
+        </ul>
+        <a href="#" class="btn btn-outline" style="width:100%;">Download New Patient Forms</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ VISITING POLICIES ═══════ -->
+<section id="visiting" class="patient-section">
+  <div class="container">
+    <div class="patient-section-header">
+      <p class="section-label">Visiting Policies</p>
+      <h2 class="section-title">Visiting hours &amp; guidelines</h2>
+      <p class="section-desc">Policies can vary slightly by department — please check with your specific care location before you visit.</p>
+    </div>
+    <div class="policy-grid">
+      <div class="info-card">
+        <h3><svg class="icon icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>General visiting hours</h3>
+        <ul>
+          <li><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span>Most inpatient units: 8:00 AM – 8:00 PM daily</span></li>
+          <li><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span>Immediate family may visit 24/7 in the ICU and Maternity units</span></li>
+          <li><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span>Outpatient offices follow each location's posted hours</span></li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <h3><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>Visitor guidelines</h3>
+        <ul>
+          <li><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span>Please reschedule your visit if you're feeling unwell</span></li>
+          <li><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span>A care team member can share any unit-specific visitor limits</span></li>
+          <li><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span>Every patient has the right to designate support persons and make care decisions with their care team</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ FAQ ═══════ -->
+<section id="faq" class="patient-section">
+  <div class="container">
+    <div class="patient-section-header">
+      <p class="section-label">Frequently Asked Questions</p>
+      <h2 class="section-title">Common questions</h2>
+    </div>
+    <div>
+      <details class="faq-item">
+        <summary>Do I need a referral to see a specialist?</summary>
+        <p>Some specialty visits require a referral from your primary care provider, depending on your insurance plan. If you don't have a primary care provider yet, you can find one through Find a Doctor.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Can I request an appointment online?</summary>
+        <p>Yes — many Hyro Health providers offer online booking. Look for the "Book online" badge when searching Find a Doctor, or call the location directly.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Do you offer telehealth visits?</summary>
+        <p>Many providers offer telehealth appointments for certain visit types. You can filter for "Telehealth available" on the Find a Doctor page.</p>
+      </details>
+      <details class="faq-item">
+        <summary>What if I need care after hours?</summary>
+        <p>For medical emergencies, call 911 or go to your nearest emergency department. For urgent but non-emergency needs, many primary care locations offer same-day sick visits.</p>
+      </details>
+      <details class="faq-item">
+        <summary>How do I update my contact or insurance information?</summary>
+        <p>You can update your information any time in MyHyro, or let the front desk know at your next visit.</p>
+      </details>
+      <details class="faq-item">
+        <summary>I found a location near me — how do I know what languages are spoken there?</summary>
+        <p>Provider language information is listed on each provider's profile in Find a Doctor, including the languages they speak fluently with patients.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ CONTACT ═══════ -->
+<section id="contact" class="patient-section">
+  <div class="container">
+    <div class="patient-section-header">
+      <p class="section-label">Contact Us</p>
+      <h2 class="section-title">Get in touch</h2>
+    </div>
+    <div class="emergency-banner">
+      <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      <span>For medical emergencies, call 911 or go to your nearest emergency department.</span>
+    </div>
+    <div class="contact-grid">
+      <div class="contact-card">
+        <h3>General Inquiries</h3>
+        <p>(571) 570-5712</p>
+        <p>Mon–Fri, 8am–6pm</p>
+      </div>
+      <div class="contact-card">
+        <h3>Patient Billing</h3>
+        <p>Questions about a bill, payment plan, or financial assistance</p>
+        <a href="#billing" class="card-link">See billing info →</a>
+      </div>
+      <div class="contact-card">
+        <h3>Find a Department</h3>
+        <p>Looking for a specific service or location?</p>
+        <a href="find-a-location.html" class="card-link">Browse all locations →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ CTA ═══════ -->
+<section class="cta">
+  <div class="container">
+    <div class="cta-inner">
+      <h2>Ready to schedule your visit?</h2>
+      <p>Find a provider who's the right fit for your care, and book an appointment today.</p>
+      <div class="cta-buttons">
+        <a href="find-a-doctor.html" class="btn btn-primary">Find a Doctor</a>
+        <a href="#" class="btn btn-outline">Call (571) 570-5712</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ FOOTER ═══════ -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">
+          <img src="hyro-logo.png" alt="Hyro Health" />
+          <span>Hyro Health</span>
+        </div>
+        <p>Compassionate, world-class healthcare for every stage of life. Serving our community since 1950.</p>
+      </div>
+      <div>
+        <h4>For Patients</h4>
+        <ul><li><a href="find-a-doctor.html">Find a Doctor</a></li><li><a href="#">Patient Portal</a></li><li><a href="patients.html#billing">Pay a Bill</a></li><li><a href="patients.html#medical-records">Medical Records</a></li></ul>
+      </div>
+      <div>
+        <h4>Our System</h4>
+        <ul><li><a href="#">About Us</a></li><li><a href="find-a-location.html">Locations</a></li><li><a href="#">Careers</a></li><li><a href="#">Giving</a></li></ul>
+      </div>
+      <div>
+        <h4>Resources</h4>
+        <ul><li><a href="#">Health Library</a></li><li><a href="#">Classes &amp; Events</a></li><li><a href="#">News</a></li><li><a href="patients.html#contact">Contact Us</a></li></ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 Hyro Health System. All rights reserved.</p>
+      <div class="footer-bottom-links">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Use</a>
+        <a href="#">Non-Discrimination Notice</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+    (function() {
+      const SITE_PASSWORD = "superhyro2026";
+      const gate = document.getElementById('password-gate');
+      const form = document.getElementById('gate-form');
+      const input = document.getElementById('gate-password');
+      const error = document.getElementById('gate-error');
+
+      function unlock() {
+        gate.style.display = 'none';
+        document.body.classList.remove('gate-locked');
+      }
+
+      if (sessionStorage.getItem('hyro-health-unlocked') === 'true') {
+        unlock();
+      } else {
+        document.body.classList.add('gate-locked');
+      }
+
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        if (input.value === SITE_PASSWORD) {
+          sessionStorage.setItem('hyro-health-unlocked', 'true');
+          error.hidden = true;
+          unlock();
+        } else {
+          error.hidden = false;
+          input.value = '';
+          input.focus();
+        }
+      });
+    })();
+  </script>
+
+<script>
+    window.HYRO_WIDGET_ID = "f642b065-9e12-4982-a217-3bf670d56719";
+    (function() {
+      const f = function() {
+        const d = document;
+        const l = d.createElement('script');
+        l.type = 'text/javascript';
+        l.async = true;
+        l.src = 'https://api.airbud.io/widgets/widget.js?id=' + window.HYRO_WIDGET_ID;
+        const x = d.getElementsByTagName('script')[0];
+        x.parentNode.insertBefore(l, x);
+      };
+      window.addEventListener('load', f, false);
+    })();
+  </script>
+
+</body>
+</html>

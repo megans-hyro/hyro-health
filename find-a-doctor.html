@@ -195,8 +195,8 @@
     <div class="navbar-links">
       <a href="index.html#services">Services</a>
       <a href="find-a-doctor.html" class="active">Find a Doctor</a>
-      <a href="index.html#locations">Locations</a>
-      <a href="index.html#patients">Patients &amp; Visitors</a>
+      <a href="find-a-location.html">Locations</a>
+      <a href="patients.html">Patients &amp; Visitors</a>
     </div>
     <div class="navbar-actions">
       <span class="navbar-phone">
@@ -306,7 +306,7 @@
       </div>
       <div class="modal-actions">
         <a href="#" class="btn btn-primary" id="modal-cta">Request Appointment</a>
-        <a href="index.html#locations" class="btn btn-outline">Get Directions</a>
+        <a href="find-a-location.html" class="btn btn-outline">Get Directions</a>
       </div>
     </div>
   </div>
@@ -329,7 +329,7 @@
       </div>
       <div>
         <h4>Our System</h4>
-        <ul><li><a href="#">About Us</a></li><li><a href="index.html#locations">Locations</a></li><li><a href="#">Careers</a></li><li><a href="#">Giving</a></li></ul>
+        <ul><li><a href="#">About Us</a></li><li><a href="find-a-location.html">Locations</a></li><li><a href="#">Careers</a></li><li><a href="#">Giving</a></li></ul>
       </div>
       <div>
         <h4>Resources</h4>
@@ -386,6 +386,7 @@
     const PAGE_SIZE = 24;
     let ALL_PROVIDERS = [];
     let displayCount = PAGE_SIZE;
+    let specialtyGroupFilter = null;
 
     const searchInput = document.getElementById('search-input');
     const specialtySelect = document.getElementById('specialty-select');
@@ -459,7 +460,11 @@
         const hay = (doc.name + ' ' + doc.specialty + ' ' + doc.practice + ' ' + doc.city).toLowerCase();
         if (!hay.includes(f.q)) return false;
       }
-      if (f.specialty && doc.specialty !== f.specialty) return false;
+      if (specialtyGroupFilter) {
+        if (!specialtyGroupFilter.includes(doc.specialty)) return false;
+      } else if (f.specialty && doc.specialty !== f.specialty) {
+        return false;
+      }
       if (f.region && doc.region !== f.region) return false;
       if (f.language && !doc.languages.includes(f.language)) return false;
       if (f.gender && doc.gender !== f.gender) return false;
@@ -585,9 +590,39 @@
         const ageOrder = ['Infants & Toddlers', 'Children 5+', 'Teens', 'Adults', 'Adults 65+'];
         populateSelect(ageSelect, ageOrder.filter(a => data.some(d => d.ages.includes(a))));
 
+        const params = new URLSearchParams(window.location.search);
+        const presetLocation = params.get('location');
+        const presetSpecialty = params.get('specialty');
+        const presetSpecialties = params.get('specialties');
+        const presetRegion = params.get('region');
+        if (presetLocation) searchInput.value = presetLocation;
+        if (presetSpecialties) {
+          specialtyGroupFilter = presetSpecialties.split(',').filter(Boolean);
+          const label = document.createElement('p');
+          label.className = 'results-count';
+          label.style.marginBottom = '1rem';
+          label.textContent = 'Filtered to: ' + specialtyGroupFilter.join(', ') + ' — ';
+          const clearLink = document.createElement('button');
+          clearLink.type = 'button';
+          clearLink.className = 'clear-filters';
+          clearLink.textContent = 'Show all specialties';
+          clearLink.addEventListener('click', () => {
+            specialtyGroupFilter = null;
+            label.remove();
+            history.replaceState(null, '', window.location.pathname);
+            renderResults(true);
+          });
+          label.appendChild(clearLink);
+          document.querySelector('.results-bar').insertAdjacentElement('beforebegin', label);
+        } else if (presetSpecialty && [...specialtySelect.options].some(o => o.value === presetSpecialty)) {
+          specialtySelect.value = presetSpecialty;
+        }
+        if (presetRegion && [...regionSelect.options].some(o => o.value === presetRegion)) {
+          regionSelect.value = presetRegion;
+        }
+
         renderResults(true);
 
-        const params = new URLSearchParams(window.location.search);
         const preselect = params.get('doctor');
         if (preselect && ALL_PROVIDERS.some(d => d.id === preselect)) {
           openModal(preselect);

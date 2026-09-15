@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Find a Location – Hyro Health</title>
+  <meta name="description" content="Search Hyro Health's 300+ care locations across upstate New York by name, category, or region." />
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="icon" href="hyro-logo.png" type="image/png" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet" />
+  <style>
+    /* ── Reset & Base ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; border: 0; }
+    :root {
+      --bg: hsl(230 50% 97%);
+      --fg: hsl(235 40% 15%);
+      --card: hsl(0 0% 100%);
+      --primary: hsl(240 60% 44%);
+      --primary-fg: hsl(0 0% 100%);
+      --secondary: hsl(235 60% 95%);
+      --secondary-fg: hsl(240 60% 44%);
+      --muted: hsl(230 40% 93%);
+      --muted-fg: hsl(235 20% 46%);
+      --accent: hsl(240 80% 62%);
+      --accent-fg: hsl(0 0% 100%);
+      --border: hsl(230 30% 90%);
+      --gradient: linear-gradient(135deg, hsl(240 60% 44%), hsl(240 80% 62%));
+      --gradient-soft: linear-gradient(180deg, hsl(230 50% 97%), hsl(235 60% 95%));
+      --shadow: 0 4px 30px -8px hsl(240 60% 44% / 0.2);
+      --shadow-lg: 0 20px 60px -15px hsl(240 60% 44% / 0.25);
+      --radius: 1rem;
+    }
+    body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--fg); -webkit-font-smoothing: antialiased; line-height: 1.6; }
+    img { max-width: 100%; display: block; }
+    a { text-decoration: none; color: inherit; }
+
+    .container { max-width: 1280px; margin: 0 auto; padding: 0 1rem; }
+    .text-gradient { background-image: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: .5rem; padding: .75rem 1.5rem; border-radius: .5rem; font-weight: 600; font-size: .875rem; cursor: pointer; transition: opacity .2s; font-family: inherit; border: none; }
+    .btn-primary { background-image: var(--gradient); color: var(--primary-fg); }
+    .btn-primary:hover { opacity: .9; }
+    .btn-outline { border: 1px solid var(--border); color: var(--fg); background: transparent; }
+    .btn-outline:hover { background: var(--secondary); }
+    .section-label { font-size: .75rem; font-weight: 600; letter-spacing: .15em; text-transform: uppercase; color: var(--accent); margin-bottom: .75rem; }
+
+    .navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 50; background: rgba(244,245,251,.8); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); }
+    .navbar-inner { display: flex; align-items: center; justify-content: space-between; height: 4rem; }
+    .navbar-brand { display: flex; align-items: center; gap: .5rem; font-size: 1.25rem; font-weight: 700; }
+    .navbar-brand img { height: 2rem; width: auto; }
+    .navbar-links { display: flex; align-items: center; gap: 2rem; }
+    .navbar-links a { font-size: .875rem; font-weight: 500; color: var(--muted-fg); transition: color .2s; }
+    .navbar-links a:hover, .navbar-links a.active { color: var(--fg); }
+    .navbar-actions { display: flex; align-items: center; gap: .75rem; }
+    .navbar-phone { font-size: .875rem; color: var(--muted-fg); display: flex; align-items: center; gap: .5rem; }
+    @media (max-width: 1023px) { .navbar-links, .navbar-actions { display: none; } }
+
+    .icon { width: 1.25rem; height: 1.25rem; stroke: currentColor; stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
+    .icon-sm { width: 1rem; height: 1rem; }
+
+    .search-hero { padding: 8rem 0 2rem; background-image: var(--gradient-soft); }
+    .search-hero-text { text-align: center; max-width: 40rem; margin: 0 auto 2.5rem; }
+    .search-hero-text h1 { font-size: 2.5rem; font-weight: 700; margin-bottom: .75rem; }
+    .search-hero-text p { font-size: 1.125rem; color: var(--muted-fg); }
+    .search-box { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow-lg); padding: 1.5rem; max-width: 60rem; margin: 0 auto; }
+    .search-fields { display: grid; grid-template-columns: 2fr 1fr 1fr auto; gap: 1rem; align-items: end; }
+    .search-field label { display: block; font-size: .75rem; font-weight: 600; color: var(--muted-fg); margin-bottom: .5rem; }
+    .search-field input, .search-field select { width: 100%; padding: .75rem 1rem; border: 1px solid var(--border); border-radius: .5rem; font-size: .875rem; font-family: inherit; background: var(--card); color: var(--fg); }
+    .search-field input:focus, .search-field select:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+    .search-box .btn { padding: .75rem 1.5rem; white-space: nowrap; }
+    @media (max-width: 900px) { .search-fields { grid-template-columns: 1fr 1fr; } .search-box .btn { grid-column: 1 / -1; } }
+    @media (max-width: 560px) { .search-fields { grid-template-columns: 1fr; } }
+
+    .results { padding: 3rem 0 6rem; }
+    .results-bar { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; margin-bottom: 2rem; }
+    .results-count { font-size: .9375rem; color: var(--muted-fg); }
+    .results-count strong { color: var(--fg); }
+    .clear-filters { font-size: .875rem; font-weight: 600; color: var(--accent); cursor: pointer; background: none; }
+    .clear-filters:hover { text-decoration: underline; }
+
+    .location-results-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+    @media (max-width: 1023px) { .location-results-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 639px) { .location-results-grid { grid-template-columns: 1fr; } }
+
+    .location-result-card { padding: 1.75rem; border-radius: var(--radius); background: var(--card); border: 1px solid var(--border); transition: box-shadow .3s; display: flex; flex-direction: column; }
+    .location-result-card:hover { box-shadow: var(--shadow); }
+    .location-type { display: inline-block; padding: .25rem .75rem; border-radius: 999px; background: var(--secondary); color: var(--secondary-fg); font-size: .75rem; font-weight: 600; margin-bottom: 1rem; width: fit-content; }
+    .location-result-card h3 { font-size: 1.125rem; font-weight: 700; margin-bottom: 1rem; }
+    .location-result-detail { display: flex; align-items: flex-start; gap: .75rem; color: var(--muted-fg); font-size: .875rem; margin-bottom: .75rem; }
+    .location-result-detail svg { color: var(--accent); flex-shrink: 0; margin-top: 2px; }
+    .location-card-actions { margin-top: auto; padding-top: 1rem; display: flex; flex-direction: column; gap: .5rem; }
+    .location-card-actions a { font-size: .875rem; font-weight: 600; color: var(--accent); }
+    .location-card-actions a:hover { text-decoration: underline; }
+
+    .no-results { text-align: center; padding: 4rem 1rem; color: var(--muted-fg); }
+    .no-results h3 { font-size: 1.25rem; color: var(--fg); margin-bottom: .5rem; }
+    .loading-state { text-align: center; padding: 4rem 1rem; color: var(--muted-fg); }
+    .load-more-wrap { text-align: center; margin-top: 3rem; }
+
+    .gate-overlay { position: fixed; inset: 0; z-index: 1000; background: var(--bg); display: flex; align-items: center; justify-content: center; padding: 1rem; }
+    .gate-box { width: 100%; max-width: 22rem; background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow-lg); padding: 2.5rem 2rem; text-align: center; }
+    .gate-logo { height: 2.5rem; width: auto; margin: 0 auto 1.5rem; }
+    .gate-box h2 { font-size: 1.25rem; font-weight: 700; margin-bottom: .5rem; }
+    .gate-box p { color: var(--muted-fg); font-size: .875rem; margin-bottom: 1.5rem; }
+    .gate-box input { width: 100%; padding: .75rem 1rem; border: 1px solid var(--border); border-radius: .5rem; font-size: .875rem; font-family: inherit; margin-bottom: 1rem; }
+    .gate-box input:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+    .gate-box button { width: 100%; justify-content: center; border: none; font-family: inherit; }
+    .gate-error { color: #c0392b; font-size: .8125rem; margin: .75rem 0 0; }
+    body.gate-locked { overflow: hidden; }
+
+    .footer { padding: 3rem 0; background: var(--fg); color: rgba(255,255,255,.5); }
+    .footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 2rem; margin-bottom: 2.5rem; }
+    .footer-brand { display: flex; align-items: center; gap: .5rem; margin-bottom: 1rem; }
+    .footer-brand img { height: 1.75rem; filter: brightness(0) invert(1); }
+    .footer-brand span { font-size: 1.125rem; font-weight: 700; color: white; }
+    .footer p { font-size: .875rem; line-height: 1.7; }
+    .footer h4 { font-size: .875rem; font-weight: 600; color: white; margin-bottom: 1rem; }
+    .footer ul { list-style: none; }
+    .footer ul li { margin-bottom: .5rem; }
+    .footer ul a { font-size: .875rem; transition: color .2s; }
+    .footer ul a:hover { color: white; }
+    .footer-bottom { border-top: 1px solid rgba(255,255,255,.15); padding-top: 1.5rem; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; font-size: .75rem; }
+    .footer-bottom-links { display: flex; gap: 1.5rem; }
+    .footer-bottom-links a:hover { color: white; }
+    @media (max-width: 767px) { .footer-grid { grid-template-columns: 1fr 1fr; } }
+  </style>
+</head>
+<body>
+
+<div id="password-gate" class="gate-overlay">
+  <form id="gate-form" class="gate-box">
+    <img src="hyro-logo.png" alt="Hyro Health" class="gate-logo" />
+    <h2>This site is password protected</h2>
+    <p>Enter the password to continue.</p>
+    <input type="password" id="gate-password" placeholder="Password" autocomplete="off" autofocus />
+    <button type="submit" class="btn btn-primary">Enter</button>
+    <p id="gate-error" class="gate-error" hidden>Incorrect password. Try again.</p>
+  </form>
+</div>
+
+<!-- ═══════ NAVBAR ═══════ -->
+<nav class="navbar">
+  <div class="container navbar-inner">
+    <a href="index.html" class="navbar-brand">
+      <img src="hyro-logo.png" alt="Hyro Health" />
+      <span>Hyro <span class="text-gradient">Health</span></span>
+    </a>
+    <div class="navbar-links">
+      <a href="index.html#services">Services</a>
+      <a href="find-a-doctor.html">Find a Doctor</a>
+      <a href="find-a-location.html" class="active">Locations</a>
+      <a href="patients.html">Patients &amp; Visitors</a>
+    </div>
+    <div class="navbar-actions">
+      <span class="navbar-phone">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        (571) 570-5712
+      </span>
+      <a href="#" class="btn btn-primary" style="padding:.5rem 1rem; font-size:.8125rem;">Patient Portal</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ═══════ SEARCH HERO ═══════ -->
+<section class="search-hero">
+  <div class="container">
+    <div class="search-hero-text">
+      <p class="section-label">Locations</p>
+      <h1>Find care <span class="text-gradient">close to home</span></h1>
+      <p>Search 300+ Hyro Health locations across upstate New York by name, category, or region.</p>
+    </div>
+    <form class="search-box" id="search-form">
+      <div class="search-fields">
+        <div class="search-field">
+          <label for="search-input">Location name, city, or ZIP</label>
+          <input type="text" id="search-input" placeholder="e.g. Cardiology or Utica" autocomplete="off" />
+        </div>
+        <div class="search-field">
+          <label for="category-select">Category</label>
+          <select id="category-select"><option value="">All Categories</option></select>
+        </div>
+        <div class="search-field">
+          <label for="region-select">Region</label>
+          <select id="region-select"><option value="">All Regions</option></select>
+        </div>
+        <button type="submit" class="btn btn-primary">
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          Search
+        </button>
+      </div>
+    </form>
+  </div>
+</section>
+
+<!-- ═══════ RESULTS ═══════ -->
+<section class="results">
+  <div class="container">
+    <div class="results-bar">
+      <p class="results-count" id="results-count"></p>
+      <button type="button" class="clear-filters" id="clear-filters">Clear filters</button>
+    </div>
+    <div class="loading-state" id="loading-state">Loading locations…</div>
+    <div class="location-results-grid" id="location-results"></div>
+    <div class="no-results" id="no-results" hidden>
+      <h3>No locations match your search</h3>
+      <p>Try a different name, category, or region — or clear your filters to see everyone.</p>
+    </div>
+    <div class="load-more-wrap" id="load-more-wrap" hidden>
+      <button type="button" class="btn btn-outline" id="load-more-btn">Load More Locations</button>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ FOOTER ═══════ -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">
+          <img src="hyro-logo.png" alt="Hyro Health" />
+          <span>Hyro Health</span>
+        </div>
+        <p>Compassionate, world-class healthcare for every stage of life. Serving our community since 1950.</p>
+      </div>
+      <div>
+        <h4>For Patients</h4>
+        <ul><li><a href="find-a-doctor.html">Find a Doctor</a></li><li><a href="#">Patient Portal</a></li><li><a href="patients.html#billing">Pay a Bill</a></li><li><a href="patients.html#medical-records">Medical Records</a></li></ul>
+      </div>
+      <div>
+        <h4>Our System</h4>
+        <ul><li><a href="#">About Us</a></li><li><a href="find-a-location.html">Locations</a></li><li><a href="#">Careers</a></li><li><a href="#">Giving</a></li></ul>
+      </div>
+      <div>
+        <h4>Resources</h4>
+        <ul><li><a href="#">Health Library</a></li><li><a href="#">Classes &amp; Events</a></li><li><a href="#">News</a></li><li><a href="patients.html#contact">Contact Us</a></li></ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 Hyro Health System. All rights reserved.</p>
+      <div class="footer-bottom-links">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Use</a>
+        <a href="#">Non-Discrimination Notice</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+    (function() {
+      const SITE_PASSWORD = "superhyro2026";
+      const gate = document.getElementById('password-gate');
+      const form = document.getElementById('gate-form');
+      const input = document.getElementById('gate-password');
+      const error = document.getElementById('gate-error');
+
+      function unlock() {
+        gate.style.display = 'none';
+        document.body.classList.remove('gate-locked');
+      }
+
+      if (sessionStorage.getItem('hyro-health-unlocked') === 'true') {
+        unlock();
+      } else {
+        document.body.classList.add('gate-locked');
+      }
+
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        if (input.value === SITE_PASSWORD) {
+          sessionStorage.setItem('hyro-health-unlocked', 'true');
+          error.hidden = true;
+          unlock();
+        } else {
+          error.hidden = false;
+          input.value = '';
+          input.focus();
+        }
+      });
+    })();
+  </script>
+
+<script>
+  (function() {
+    const PAGE_SIZE = 24;
+    let ALL_LOCATIONS = [];
+    let displayCount = PAGE_SIZE;
+
+    const searchInput = document.getElementById('search-input');
+    const categorySelect = document.getElementById('category-select');
+    const regionSelect = document.getElementById('region-select');
+    const searchForm = document.getElementById('search-form');
+    const resultsGrid = document.getElementById('location-results');
+    const resultsCount = document.getElementById('results-count');
+    const noResults = document.getElementById('no-results');
+    const loadingState = document.getElementById('loading-state');
+    const clearFiltersBtn = document.getElementById('clear-filters');
+    const loadMoreWrap = document.getElementById('load-more-wrap');
+    const loadMoreBtn = document.getElementById('load-more-btn');
+
+    function populateSelect(select, values) {
+      values.forEach(v => {
+        const opt = document.createElement('option');
+        opt.value = v;
+        opt.textContent = v;
+        select.appendChild(opt);
+      });
+    }
+
+    function getFilters() {
+      return {
+        q: searchInput.value.trim().toLowerCase(),
+        category: categorySelect.value,
+        region: regionSelect.value,
+      };
+    }
+
+    function matches(loc, f) {
+      if (f.q) {
+        const hay = (loc.practice + ' ' + loc.city + ' ' + loc.zip + ' ' + loc.category).toLowerCase();
+        if (!hay.includes(f.q)) return false;
+      }
+      if (f.category && loc.category !== f.category) return false;
+      if (f.region && loc.region !== f.region) return false;
+      return true;
+    }
+
+    function renderResults(resetCount) {
+      if (resetCount) displayCount = PAGE_SIZE;
+      const f = getFilters();
+      const filtered = ALL_LOCATIONS.filter(loc => matches(loc, f));
+      const shown = filtered.slice(0, displayCount);
+
+      resultsGrid.innerHTML = shown.map(loc => `
+        <div class="location-result-card">
+          <span class="location-type">${loc.category} · ${loc.region}</span>
+          <h3>${loc.practice}</h3>
+          <div class="location-result-detail">
+            <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            <span>${loc.address}</span>
+          </div>
+          <div class="location-result-detail">
+            <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            <span>${loc.providerCount} provider${loc.providerCount === 1 ? '' : 's'} at this location</span>
+          </div>
+          <div class="location-card-actions">
+            ${loc.providerCount > 0 ? `<a href="find-a-doctor.html?location=${encodeURIComponent(loc.practice)}">Find Doctors Here →</a>` : ''}
+            <a href="#">Get Directions →</a>
+          </div>
+        </div>
+      `).join('');
+
+      resultsCount.innerHTML = filtered.length ? `Showing <strong>${shown.length}</strong> of <strong>${filtered.length}</strong> matching locations (${ALL_LOCATIONS.length} total)` : '';
+      noResults.hidden = filtered.length !== 0;
+      loadMoreWrap.hidden = shown.length >= filtered.length;
+    }
+
+    searchForm.addEventListener('submit', e => { e.preventDefault(); renderResults(true); });
+    searchInput.addEventListener('input', () => renderResults(true));
+    categorySelect.addEventListener('change', () => renderResults(true));
+    regionSelect.addEventListener('change', () => renderResults(true));
+    loadMoreBtn.addEventListener('click', () => { displayCount += PAGE_SIZE; renderResults(false); });
+
+    clearFiltersBtn.addEventListener('click', () => {
+      searchInput.value = '';
+      categorySelect.value = '';
+      regionSelect.value = '';
+      renderResults(true);
+    });
+
+    fetch('data/locations.json')
+      .then(r => r.json())
+      .then(data => {
+        ALL_LOCATIONS = data;
+        loadingState.hidden = true;
+
+        populateSelect(categorySelect, [...new Set(data.map(d => d.category))].sort());
+        populateSelect(regionSelect, [...new Set(data.map(d => d.region))].sort());
+
+        const params = new URLSearchParams(window.location.search);
+        const presetRegion = params.get('region');
+        if (presetRegion && [...regionSelect.options].some(o => o.value === presetRegion)) {
+          regionSelect.value = presetRegion;
+        }
+        const presetCategory = params.get('category');
+        if (presetCategory && [...categorySelect.options].some(o => o.value === presetCategory)) {
+          categorySelect.value = presetCategory;
+        }
+
+        renderResults(true);
+      })
+      .catch(() => {
+        loadingState.textContent = 'Could not load the location directory. Please try again shortly.';
+      });
+  })();
+  </script>
+
+<script>
+    window.HYRO_WIDGET_ID = "f642b065-9e12-4982-a217-3bf670d56719";
+    (function() {
+      const f = function() {
+        const d = document;
+        const l = d.createElement('script');
+        l.type = 'text/javascript';
+        l.async = true;
+        l.src = 'https://api.airbud.io/widgets/widget.js?id=' + window.HYRO_WIDGET_ID;
+        const x = d.getElementsByTagName('script')[0];
+        x.parentNode.insertBefore(l, x);
+      };
+      window.addEventListener('load', f, false);
+    })();
+  </script>
+
+</body>
+</html>
