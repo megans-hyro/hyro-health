@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>News – Hyro Health</title>
+  <meta name="description" content="The latest news, announcements, and press releases from Hyro Health." />
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="icon" href="hyro-logo.png" type="image/png" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; border: 0; }
+    :root {
+      --bg: hsl(230 50% 97%);
+      --fg: hsl(235 40% 15%);
+      --card: hsl(0 0% 100%);
+      --primary: hsl(240 60% 44%);
+      --primary-fg: hsl(0 0% 100%);
+      --secondary: hsl(235 60% 95%);
+      --secondary-fg: hsl(240 60% 44%);
+      --muted: hsl(230 40% 93%);
+      --muted-fg: hsl(235 20% 46%);
+      --accent: hsl(240 80% 62%);
+      --accent-fg: hsl(0 0% 100%);
+      --border: hsl(230 30% 90%);
+      --gradient: linear-gradient(135deg, hsl(240 60% 44%), hsl(240 80% 62%));
+      --gradient-soft: linear-gradient(180deg, hsl(230 50% 97%), hsl(235 60% 95%));
+      --shadow: 0 4px 30px -8px hsl(240 60% 44% / 0.2);
+      --shadow-lg: 0 20px 60px -15px hsl(240 60% 44% / 0.25);
+      --radius: 1rem;
+    }
+    body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--fg); -webkit-font-smoothing: antialiased; line-height: 1.6; }
+    img { max-width: 100%; display: block; }
+    a { text-decoration: none; color: inherit; }
+    .container { max-width: 1280px; margin: 0 auto; padding: 0 1rem; }
+    .container-narrow { max-width: 860px; margin: 0 auto; padding: 0 1rem; }
+    .text-gradient { background-image: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: .5rem; padding: .75rem 1.5rem; border-radius: .5rem; font-weight: 600; font-size: .875rem; cursor: pointer; transition: opacity .2s; font-family: inherit; border: none; }
+    .btn-primary { background-image: var(--gradient); color: var(--primary-fg); }
+    .btn-primary:hover { opacity: .9; }
+    .btn-outline { border: 1px solid var(--border); color: var(--fg); background: transparent; }
+    .btn-outline:hover { background: var(--secondary); }
+    .section-label { font-size: .75rem; font-weight: 600; letter-spacing: .15em; text-transform: uppercase; color: var(--accent); margin-bottom: .75rem; }
+    .section-title { font-size: 2rem; font-weight: 700; margin-bottom: 1rem; }
+    .section-desc { font-size: 1.0625rem; color: var(--muted-fg); max-width: 40rem; }
+
+    .navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 50; background: rgba(244,245,251,.8); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); }
+    .navbar-inner { display: flex; align-items: center; justify-content: space-between; height: 4rem; }
+    .navbar-brand { display: flex; align-items: center; gap: .5rem; font-size: 1.25rem; font-weight: 700; }
+    .navbar-brand img { height: 2rem; width: auto; }
+    .navbar-links { display: flex; align-items: center; gap: 2rem; }
+    .navbar-links a { font-size: .875rem; font-weight: 500; color: var(--muted-fg); transition: color .2s; }
+    .navbar-links a:hover, .navbar-links a.active { color: var(--fg); }
+    .navbar-actions { display: flex; align-items: center; gap: .75rem; }
+    .navbar-phone { font-size: .875rem; color: var(--muted-fg); display: flex; align-items: center; gap: .5rem; }
+    @media (max-width: 1023px) { .navbar-links, .navbar-actions { display: none; } }
+
+    .icon { width: 1.25rem; height: 1.25rem; stroke: currentColor; stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
+    .icon-sm { width: 1rem; height: 1rem; }
+
+    .page-hero { padding: 8rem 0 3rem; background-image: var(--gradient-soft); }
+    .page-hero-text { max-width: 42rem; }
+    .page-hero h1 { font-size: 2.5rem; font-weight: 700; margin-bottom: .75rem; }
+    .page-hero p { font-size: 1.125rem; color: var(--muted-fg); }
+    .page-hero.centered .page-hero-text { max-width: 42rem; margin: 0 auto; text-align: center; }
+
+    .content-section { padding: 4rem 0; }
+    .content-section.alt { background-image: var(--gradient-soft); }
+    .content-section:not(:last-of-type) { border-bottom: 1px solid var(--border); }
+    .content-section h2 { font-size: 1.625rem; font-weight: 700; margin-bottom: 1rem; }
+    .content-section p { color: var(--muted-fg); margin-bottom: 1rem; }
+    .content-section p:last-child { margin-bottom: 0; }
+
+    .value-grid, .impact-grid, .job-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; margin-top: 2rem; }
+    .impact-grid { grid-template-columns: repeat(4, 1fr); }
+    .job-grid { grid-template-columns: repeat(3, 1fr); }
+    .value-card, .impact-card, .job-card { padding: 1.75rem; border-radius: var(--radius); background: var(--card); border: 1px solid var(--border); transition: box-shadow .3s; }
+    .value-card:hover, .impact-card:hover, .job-card:hover { box-shadow: var(--shadow); }
+    .value-card .icon-wrap, .impact-card .icon-wrap, .job-card .icon-wrap { width: 3rem; height: 3rem; border-radius: .75rem; background: var(--secondary); display: flex; align-items: center; justify-content: center; margin-bottom: 1.25rem; color: var(--accent); }
+    .value-card h3, .impact-card h3, .job-card h3 { font-size: 1.0625rem; font-weight: 700; margin-bottom: .5rem; }
+    .value-card p, .impact-card p, .job-card p { color: var(--muted-fg); font-size: .875rem; }
+    @media (max-width: 1023px) { .value-grid, .impact-grid, .job-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 639px) { .value-grid, .impact-grid, .job-grid { grid-template-columns: 1fr; } }
+
+    .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; margin-top: 2.5rem; text-align: center; }
+    .stats-row .stat-value { font-size: 2.5rem; font-weight: 700; color: var(--accent); }
+    .stats-row .stat-label { color: var(--muted-fg); font-weight: 500; font-size: .875rem; margin-top: .25rem; }
+    @media (max-width: 639px) { .stats-row { grid-template-columns: repeat(2, 1fr); } }
+
+    .lib-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 2rem; }
+    .lib-card { padding: 1.75rem; border-radius: var(--radius); background: var(--card); border: 1px solid var(--border); transition: box-shadow .3s, transform .3s; }
+    .lib-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-2px); }
+    .lib-card h3 { font-size: 1.0625rem; font-weight: 700; margin-bottom: .75rem; color: var(--accent); }
+    .lib-card ul { list-style: none; display: flex; flex-direction: column; gap: .5rem; margin-bottom: 1rem; }
+    .lib-card li { font-size: .875rem; color: var(--muted-fg); }
+    .lib-card .lib-link { font-size: .8125rem; font-weight: 600; color: var(--accent); }
+    .lib-card .lib-link:hover { text-decoration: underline; }
+    @media (max-width: 1023px) { .lib-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 639px) { .lib-grid { grid-template-columns: 1fr; } }
+
+    .event-list { display: flex; flex-direction: column; gap: 1rem; margin-top: 2rem; }
+    .event-card { display: flex; gap: 1.5rem; align-items: center; padding: 1.5rem; border-radius: var(--radius); background: var(--card); border: 1px solid var(--border); }
+    .event-date { flex-shrink: 0; width: 4.5rem; height: 4.5rem; border-radius: .75rem; background-image: var(--gradient); color: white; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+    .event-date .month { font-size: .6875rem; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; }
+    .event-date .day { font-size: 1.5rem; font-weight: 700; line-height: 1; }
+    .event-info { flex: 1; }
+    .event-info h3 { font-size: 1.0625rem; font-weight: 700; margin-bottom: .25rem; }
+    .event-meta { font-size: .8125rem; color: var(--muted-fg); }
+    @media (max-width: 639px) { .event-card { flex-direction: column; align-items: flex-start; } }
+
+    .news-list { display: flex; flex-direction: column; gap: 0; margin-top: 2rem; }
+    .news-item { padding: 1.75rem 0; border-bottom: 1px solid var(--border); }
+    .news-item:first-child { padding-top: 0; }
+    .news-date { font-size: .75rem; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; color: var(--accent); margin-bottom: .5rem; }
+    .news-item h3 { font-size: 1.1875rem; font-weight: 700; margin-bottom: .5rem; }
+    .news-item p { color: var(--muted-fg); }
+
+    .legal-section h2 { font-size: 1.25rem; font-weight: 700; margin: 2rem 0 .75rem; }
+    .legal-section h2:first-child { margin-top: 0; }
+    .legal-section p, .legal-section li { color: var(--muted-fg); margin-bottom: .875rem; font-size: .9375rem; }
+    .legal-section ul { padding-left: 1.25rem; margin-bottom: .875rem; }
+    .legal-updated { font-size: .8125rem; color: var(--muted-fg); margin-bottom: 2rem; }
+
+    .cta { padding: 5rem 0; background-image: var(--gradient-soft); }
+    .cta-inner { max-width: 42rem; margin: 0 auto; text-align: center; }
+    .cta-inner h2 { font-size: 1.875rem; font-weight: 700; margin-bottom: 1rem; }
+    .cta-inner p { font-size: 1.0625rem; color: var(--muted-fg); max-width: 34rem; margin: 0 auto 2rem; }
+    .cta-buttons { display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; }
+
+    .gate-overlay { position: fixed; inset: 0; z-index: 1000; background: var(--bg); display: flex; align-items: center; justify-content: center; padding: 1rem; }
+    .gate-box { width: 100%; max-width: 22rem; background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow-lg); padding: 2.5rem 2rem; text-align: center; }
+    .gate-logo { height: 2.5rem; width: auto; margin: 0 auto 1.5rem; }
+    .gate-box h2 { font-size: 1.25rem; font-weight: 700; margin-bottom: .5rem; }
+    .gate-box p { color: var(--muted-fg); font-size: .875rem; margin-bottom: 1.5rem; }
+    .gate-box input { width: 100%; padding: .75rem 1rem; border: 1px solid var(--border); border-radius: .5rem; font-size: .875rem; font-family: inherit; margin-bottom: 1rem; }
+    .gate-box input:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+    .gate-box button { width: 100%; justify-content: center; border: none; font-family: inherit; }
+    .gate-error { color: #c0392b; font-size: .8125rem; margin: .75rem 0 0; }
+    body.gate-locked { overflow: hidden; }
+
+    .footer { padding: 3rem 0; background: var(--fg); color: rgba(255,255,255,.5); }
+    .footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 2rem; margin-bottom: 2.5rem; }
+    .footer-brand { display: flex; align-items: center; gap: .5rem; margin-bottom: 1rem; }
+    .footer-brand img { height: 1.75rem; filter: brightness(0) invert(1); }
+    .footer-brand span { font-size: 1.125rem; font-weight: 700; color: white; }
+    .footer p { font-size: .875rem; line-height: 1.7; }
+    .footer h4 { font-size: .875rem; font-weight: 600; color: white; margin-bottom: 1rem; }
+    .footer ul { list-style: none; }
+    .footer ul li { margin-bottom: .5rem; }
+    .footer ul a { font-size: .875rem; transition: color .2s; }
+    .footer ul a:hover { color: white; }
+    .footer-bottom { border-top: 1px solid rgba(255,255,255,.15); padding-top: 1.5rem; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; font-size: .75rem; }
+    .footer-bottom-links { display: flex; gap: 1.5rem; }
+    .footer-bottom-links a:hover { color: white; }
+    @media (max-width: 767px) { .footer-grid { grid-template-columns: 1fr 1fr; } }
+  </style>
+</head>
+<body>
+
+<div id="password-gate" class="gate-overlay">
+  <form id="gate-form" class="gate-box">
+    <img src="hyro-logo.png" alt="Hyro Health" class="gate-logo" />
+    <h2>This site is password protected</h2>
+    <p>Enter the password to continue.</p>
+    <input type="password" id="gate-password" placeholder="Password" autocomplete="off" autofocus />
+    <button type="submit" class="btn btn-primary">Enter</button>
+    <p id="gate-error" class="gate-error" hidden>Incorrect password. Try again.</p>
+  </form>
+</div>
+
+<nav class="navbar">
+  <div class="container navbar-inner">
+    <a href="index.html" class="navbar-brand">
+      <img src="hyro-logo.png" alt="Hyro Health" />
+      <span>Hyro <span class="text-gradient">Health</span></span>
+    </a>
+    <div class="navbar-links">
+      <a href="index.html#services">Services</a>
+      <a href="find-a-doctor.html">Find a Doctor</a>
+      <a href="find-a-location.html">Locations</a>
+      <a href="patients.html">Patients &amp; Visitors</a>
+    </div>
+    <div class="navbar-actions">
+      <span class="navbar-phone">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        (571) 570-5712
+      </span>
+      <a href="#" class="btn btn-primary" style="padding:.5rem 1rem; font-size:.8125rem;">Patient Portal</a>
+    </div>
+  </div>
+</nav>
+
+
+<section class="page-hero centered">
+  <div class="container page-hero-text">
+    <p class="section-label">Newsroom</p>
+    <h1>News &amp; <span class="text-gradient">announcements</span></h1>
+    <p>The latest from across the Hyro Health system.</p>
+  </div>
+</section>
+
+<section class="content-section">
+  <div class="container-narrow">
+    <div class="news-list">
+      
+      <div class="news-item">
+        <div class="news-date">September 2026</div>
+        <h3>Hyro Health Opens New Imaging Center in Lake Placid</h3>
+        <p>The new facility expands access to mammography, MRI, and ultrasound services for patients across the Adirondack Region.</p>
+      </div>
+      <div class="news-item">
+        <div class="news-date">August 2026</div>
+        <h3>Hyro Health Named Among Top Regional Health Systems</h3>
+        <p>The recognition highlights Hyro Health's clinical outcomes, patient safety record, and community health investment across upstate New York.</p>
+      </div>
+      <div class="news-item">
+        <div class="news-date">July 2026</div>
+        <h3>Hyro Health Launches 24/7 Digital Patient Support</h3>
+        <p>A new virtual assistant helps patients find providers, check symptoms, and get answers to common questions any time, day or night.</p>
+      </div>
+      <div class="news-item">
+        <div class="news-date">June 2026</div>
+        <h3>Hyro Health Cancer Center Expands Clinical Trial Program</h3>
+        <p>New partnerships bring additional clinical trial options to patients receiving cancer care close to home.</p>
+      </div>
+      <div class="news-item">
+        <div class="news-date">April 2026</div>
+        <h3>Hyro Health Foundation Surpasses $2M in Community Health Grants</h3>
+        <p>Funding supports free screenings, health education, and transportation assistance across all nine regions Hyro Health serves.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">
+          <img src="hyro-logo.png" alt="Hyro Health" />
+          <span>Hyro Health</span>
+        </div>
+        <p>Compassionate, world-class healthcare for every stage of life. Serving our community since 1950.</p>
+      </div>
+      <div>
+        <h4>For Patients</h4>
+        <ul><li><a href="find-a-doctor.html">Find a Doctor</a></li><li><a href="#">Patient Portal</a></li><li><a href="patients.html#billing">Pay a Bill</a></li><li><a href="patients.html#medical-records">Medical Records</a></li></ul>
+      </div>
+      <div>
+        <h4>Our System</h4>
+        <ul><li><a href="about-us.html">About Us</a></li><li><a href="find-a-location.html">Locations</a></li><li><a href="careers.html">Careers</a></li><li><a href="giving.html">Giving</a></li></ul>
+      </div>
+      <div>
+        <h4>Resources</h4>
+        <ul><li><a href="health-library.html">Health Library</a></li><li><a href="classes-and-events.html">Classes &amp; Events</a></li><li><a href="news.html">News</a></li><li><a href="patients.html#contact">Contact Us</a></li></ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 Hyro Health System. All rights reserved.</p>
+      <div class="footer-bottom-links">
+        <a href="privacy-policy.html">Privacy Policy</a>
+        <a href="terms-of-use.html">Terms of Use</a>
+        <a href="non-discrimination-notice.html">Non-Discrimination Notice</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+    (function() {
+      const SITE_PASSWORD = "superhyro2026";
+      const gate = document.getElementById('password-gate');
+      const form = document.getElementById('gate-form');
+      const input = document.getElementById('gate-password');
+      const error = document.getElementById('gate-error');
+
+      function unlock() {
+        gate.style.display = 'none';
+        document.body.classList.remove('gate-locked');
+      }
+
+      if (sessionStorage.getItem('hyro-health-unlocked') === 'true') {
+        unlock();
+      } else {
+        document.body.classList.add('gate-locked');
+      }
+
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        if (input.value === SITE_PASSWORD) {
+          sessionStorage.setItem('hyro-health-unlocked', 'true');
+          error.hidden = true;
+          unlock();
+        } else {
+          error.hidden = false;
+          input.value = '';
+          input.focus();
+        }
+      });
+    })();
+  </script>
+
+<script>
+    window.HYRO_WIDGET_ID = "f642b065-9e12-4982-a217-3bf670d56719";
+    (function() {
+      const f = function() {
+        const d = document;
+        const l = d.createElement('script');
+        l.type = 'text/javascript';
+        l.async = true;
+        l.src = 'https://api.airbud.io/widgets/widget.js?id=' + window.HYRO_WIDGET_ID;
+        const x = d.getElementsByTagName('script')[0];
+        x.parentNode.insertBefore(l, x);
+      };
+      window.addEventListener('load', f, false);
+    })();
+  </script>
+
+</body>
+</html>
